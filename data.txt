@@ -1,0 +1,10 @@
+Courses:
+[CS180,Quiz1,Quiz2,Quiz3]
+[PHYS172]
+Course_end
+Students:
+Name-[FirstName,LastName,ID,Password]
+Students_end
+Teachers:
+Name-[FirstName,LastName,ID,Password]
+Teachers_end
