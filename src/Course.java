@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Course {
@@ -22,7 +23,7 @@ public class Course {
             line = br.readLine();
         }
 
-        System.out.println(list);
+//        System.out.println(list);
 
         int outerLoop = 5;
         do {
@@ -36,20 +37,26 @@ public class Course {
                 scan.nextLine();
                 if (outerLoop >= 0 && outerLoop <= 3) {
                     if (outerLoop == 1) {
-                        System.out.println("Current courses:");
+                        System.out.println("\nCurrent courses:");
                         for (int i = 0; i < list.size(); i++) {
                             System.out.println(list.get(i));
                         }
+                        System.out.println();
                     } else if (outerLoop == 2) {
                         System.out.println("Enter course name to add (without spaces)");
                         String courseAdd;
                         do {
                             courseAdd = scan.nextLine();
+                            courseAdd = courseAdd.toUpperCase();
                             if (courseAdd.contains(" ")) {
                                 System.out.println("Course name should not contain spaces!");
                             } else {
-                                list.add(courseAdd);
-                                addCourse(courseAdd, list);
+                                if (!list.contains(courseAdd)) {
+                                    list.add(courseAdd);
+                                    addCourse(courseAdd, list);
+                                } else {
+                                    System.out.println("Course already exists!");
+                                }
                             }
                         } while (courseAdd.contains(" "));
                     } else if (outerLoop == 3) {
@@ -57,6 +64,7 @@ public class Course {
                         String courseRemove;
                         do {
                             courseRemove = scan.nextLine();
+                            courseRemove = courseRemove.toUpperCase();
                             if (list.contains(courseRemove)){
                                 try {
                                     list.remove(courseRemove);
@@ -84,34 +92,29 @@ public class Course {
     }
 
     public static void addCourse(String courseAdd, ArrayList<String> currentCourses) throws FileNotFoundException {
-        System.out.println("Added course!");
+        System.out.println("Added course!\n");
 
         FileOutputStream fos = new FileOutputStream("data.txt", true);
         PrintWriter pw = new PrintWriter(fos);
-//        for (int i = 0; i < currentCourses.size(); i++) {
-//            System.out.println(currentCourses.get(i));
-//        }
+
         String courseName = String.format("\n" + courseAdd);
-        System.out.println(currentCourses);
+
         pw.write(courseName);
         pw.flush();
         pw.close();
     }
 
     public static void removeCourse(String courseRemove, ArrayList<String> currentCourses) throws FileNotFoundException {
-        System.out.println("Removed course!");
+        System.out.println("Removed course!\n");
 
         FileOutputStream fos = new FileOutputStream("data.txt", false);
         PrintWriter pw = new PrintWriter(fos);
         pw.write(currentCourses.get(0));
         for (int i = 1; i < currentCourses.size(); i++) {
-            System.out.println(currentCourses.get(i));
             pw.write("\n");
             pw.write(currentCourses.get(i));
         }
 
-        System.out.println(currentCourses);
-//        pw.write(courseName);
         pw.flush();
         pw.close();
     }
