@@ -1,59 +1,89 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Quiz {
-    private ArrayList<Question> questions = new ArrayList<Question>();
-
-    public Quiz(ArrayList<Question> questions) {
-        this.questions = questions;
+    public static void PrintQuiz(Quiz q)
+    {
+        PrintQuizBrief(q);
+        for(Question ques : q.questions)
+        {
+            Question.PrintQuestion(ques);
+        }
     }
+
+    public static void PrintQuizBrief(Quiz q)
+    {
+        System.out.println("Quiz Name: " + q.QuizName);
+        System.out.println("Order Randomisation: " + (q.randomization ? "On" : "Off"));
+    }
+
+    public ArrayList<Question> questions;
+    public String QuizName;
+    public boolean randomization;
+    public ArrayList<Submission> submissions;
 
     public Quiz() {
         this.questions = null;
+        this.QuizName = "";
+        this.randomization = false;
+        this.submissions = new ArrayList<>();
     }
 
+    public Quiz(File f, boolean randomization, Course course)
+    {
+        BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(f));
+        } catch (FileNotFoundException e) {
+            return;
+        }
 
-    public void createQuiz(Scanner sc) {
+        List<String> lines = reader.lines().toList();
+        if(lines.size() < 3 || lines.size() % 2 == 0)
+        {
+            System.out.println("Incorrect Format for Quiz File");
+        }
 
-        System.out.printf("%s\n", "How many questions are in this quiz?");
-        int quizQs = Integer.parseInt(sc.nextLine()); // pretend this works
-        for (int i = 0; i < quizQs; i++) {
-
-            System.out.printf("%s\n", "What is the question to ask?");
-            String answer = sc.nextLine();
-            System.out.printf("%s\n", "How many answers are in this quiz question?");
-            int quizAnswers = Integer.parseInt(sc.nextLine());
-            ArrayList<String> options = new ArrayList<String>();
-            for (int y = 0; y < quizAnswers; i++) {
-                System.out.printf("%s\n", "What is the next option?");
-                String option = sc.nextLine();
-                options.add(option);
+        this.QuizName = lines.get(0);
+        this.submissions = new ArrayList<>();
+        boolean isUnique = true;
+        if(course != null)
+        {
+            for(Quiz q : course.quizzes)
+            {
+                if(q.QuizName.equals(this.QuizName))
+                {
+                    isUnique = false;
+                    break;
+                }
             }
-            questions.add(new Question(answer, options));
+
+            if(!isUnique)
+            {
+                this.QuizName = "71239";
+                return;
+            }
         }
 
-        // returns quiz object
-    }
+        this.randomization = randomization;
 
-    public void editQuiz(Scanner sc) {
-
-        viewQuizzes();
-        System.out.printf("%s\n", "Which quiz would you like to edit?");
-        int quizToEdit = Integer.parseInt(sc.nextLine());
-
-        // how should this work, does the teacher select which question they want to edit
-
-    }
-
-    public void viewQuizzes() {
-        for (int i = 0; i < questions.size(); i++) {
-            System.out.println("Question " + i + 1 + ".\n");
-            questions.get(i).toString();
+        ArrayList<Question> questions= new ArrayList<>();
+        for(int i = 1; i < lines.size(); i += 2)
+        {
+            Question thisQuestion = new Question(lines.get(i), lines.get(i+1));
+            questions.add(thisQuestion);
         }
-    }
 
-    public void gradeQuiz() {
-
+        this.questions = questions;
     }
 }
+
 
