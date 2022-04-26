@@ -7,7 +7,6 @@ public class Teacher {
 
     public static void Initialise() throws IOException {
         LocalTeachers = new ArrayList<>();
-
         BufferedReader inputStream = null;
 
         try {
@@ -20,8 +19,8 @@ public class Teacher {
 
         String line;
         while ((line = inputStream.readLine()) != null) {
-            String[] credentialsStudent = line.split(",");
-            LocalTeachers.add(new Teacher(credentialsStudent[0], credentialsStudent[1], credentialsStudent[2], credentialsStudent[3]));
+            String[] credentialsTeacher = line.split(",");
+            LocalTeachers.add(new Teacher(credentialsTeacher[0], credentialsTeacher[1], credentialsTeacher[2], credentialsTeacher[3]));
         }
 
         inputStream.close();
@@ -30,15 +29,15 @@ public class Teacher {
     public static void Flush() throws IOException {
         FileWriter writer = new FileWriter("Teachers.txt");
 
-        for(Teacher student : LocalTeachers)
+        for(Teacher teacher : LocalTeachers)
         {
-            writer.write(student.firstName);
+            writer.write(teacher.firstName);
             writer.write(",");
-            writer.write(student.lastName);
+            writer.write(teacher.lastName);
             writer.write(",");
-            writer.write(student.username);
+            writer.write(teacher.username);
             writer.write(",");
-            writer.write(student.password);
+            writer.write(teacher.password);
             writer.write("\n");
         }
 

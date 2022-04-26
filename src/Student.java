@@ -4,6 +4,17 @@ import java.util.Scanner;
 
 public class Student {
     public static ArrayList<Student> LocalStudents;
+    public String firstName;
+    public String lastName;
+    public String username;
+    public String password;
+
+    public Student(String firstName, String lastName, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+    }
 
     public static void Initialise() throws IOException {
         LocalStudents = new ArrayList<>();
@@ -60,15 +71,5 @@ public class Student {
         return res;
     }
 
-    public String firstName;
-    public String lastName;
-    public String username;
-    public String password;
 
-    public Student(String firstName, String lastName, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-    }
 }

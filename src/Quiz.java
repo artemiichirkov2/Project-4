@@ -68,7 +68,7 @@ public class Quiz {
 
             if(!isUnique)
             {
-                this.QuizName = "71239";
+                this.QuizName = "71239"; //error code
                 return;
             }
         }

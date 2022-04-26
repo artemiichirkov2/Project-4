@@ -24,7 +24,7 @@ public class Application {
                     auth = Authorization.SignUp(scanner);
                     break;
                 default:
-                    System.out.println("You wrong for this");
+                    System.out.println("Not allowed");
                     break;
             }
         }
@@ -88,7 +88,9 @@ public class Application {
         boolean random = choice.equals("1");
 
         Quiz q = new Quiz(file, random, thisCourse);
-        if(q.QuizName.equals("71239")) return 1;
+        if(q.QuizName.equals("71239")) {
+            return 1;
+        }
         thisCourse.quizzes.add(q);
         Course.Flush();
         return 2;
@@ -418,7 +420,7 @@ public class Application {
 
                     Quiz quiz = course.quizzes.get(index);
                     ArrayList<Question> questionsCopy = new ArrayList<>(quiz.questions);
-                    System.out.println(questionsCopy.size());
+//                    System.out.println(questionsCopy.size());
                     if(quiz.randomization) Collections.shuffle(questionsCopy);
 
                     ArrayList<String> answers = new ArrayList<>();
