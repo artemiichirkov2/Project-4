@@ -31,6 +31,17 @@ public class Submission {
             System.out.println();
         }
     }
+    public static String ReturnSubmission(Submission sub, Quiz forQuiz)
+    {
+        String toReturn = "";
+        PrintSubmissionBrief(sub, forQuiz);
+        for(int i = 0; i < sub.answers.size(); i++)
+        {
+            Question q = forQuiz.questions.get(i);
+            toReturn = toReturn + Question.ReturnQuestion(q) + "Answer:" + sub.answers.get(i) + "\n\n";
+        }
+        return toReturn;
+    }
 
     public Submission(String studentID, ArrayList<String> submissions) {
         this.studentID = studentID;
