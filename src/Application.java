@@ -61,44 +61,21 @@ public class Application extends JComponent implements Runnable {
         JPanel signupPanel = new JPanel();
 
 
-
-
-
-
-
-
-
-
-
-
-
         // Welcome Pane UI Building
-                WelcomeTitle = new JButton();
-                WelcomeTitle.setText("Welcome! Please either select Sign Up or Sign In!");
-                SignIn = new JButton("Sign In");
-                SignUp = new JButton("Sign Up");
-                WelcomeTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-                SignIn.setAlignmentX(Component.CENTER_ALIGNMENT);
-                SignUp.setAlignmentX(Component.CENTER_ALIGNMENT);
-                BoxLayout welcomeBoxLayout = new BoxLayout(welcomePanel, BoxLayout.Y_AXIS);
-                welcomePanel.setLayout(welcomeBoxLayout);
-                welcomePanel.add(WelcomeTitle);
-                welcomePanel.add(SignUp);
-                welcomePanel.add(SignIn);
-                content.add(welcomePanel, BorderLayout.CENTER);
+        WelcomeTitle = new JButton();
+        WelcomeTitle.setText("Welcome! Please either select Sign Up or Sign In!");
+        SignIn = new JButton("Sign In");
+        SignUp = new JButton("Sign Up");
+        WelcomeTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        SignIn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        SignUp.setAlignmentX(Component.CENTER_ALIGNMENT);
+        BoxLayout welcomeBoxLayout = new BoxLayout(welcomePanel, BoxLayout.Y_AXIS);
+        welcomePanel.setLayout(welcomeBoxLayout);
+        welcomePanel.add(WelcomeTitle);
+        welcomePanel.add(SignUp);
+        welcomePanel.add(SignIn);
+        content.add(welcomePanel, BorderLayout.CENTER);
         // Welcome Pane UI Building
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //welcome pane event handlers
@@ -111,7 +88,7 @@ public class Application extends JComponent implements Runnable {
                 welcomePanel.setVisible(false);
                 signupPanel.setVisible(true);
 
-                if(!SignUpAgain) {
+                if (!SignUpAgain) {
                     // signupPanel Pane UI Building
                     signupTitle = new JTextField("Welcome! Please enter your information!", 5);
                     firstName = new JTextField("firstname", 5);
@@ -141,8 +118,6 @@ public class Application extends JComponent implements Runnable {
                 SignUpAgain = true;
 
 
-
-
                 signupBack.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         signupPanel.setVisible(false);
@@ -157,10 +132,11 @@ public class Application extends JComponent implements Runnable {
                             Authorization signup = Authorization.GUISignUp(firstName.getText(), lastName.getText(),
                                     username.getText(), password.getText(), isTeacher.getText());
 
-                            if(signup.authorized) {
+                            if (signup.authorized) {
                                 signupPanel.setVisible(false);
-                                if(isTeacher.getText().equals("1"))
-                                {
+                                if (isTeacher.getText().equals("1")) {
+                                    // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
                                     // teacher menu stuff
                                     //teacherPanel pane UI
                                     createCourse = new JButton("Create Course");
@@ -185,10 +161,10 @@ public class Application extends JComponent implements Runnable {
                                     teacherMenu.add(signOut);
                                     content.add(teacherMenu, BorderLayout.CENTER);
                                     //teacherPanel pane UI
-                                }
-                                else
-                                {
-                                // student menu stuff
+                                } else {
+                                    // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                                    // student menu stuff
                                     //studentPanel pane UI
                                     viewCoursesQuiz = new JButton("View Courses and Quizzes");
                                     takeQuizzes = new JButton("Take Quiz");
@@ -206,8 +182,7 @@ public class Application extends JComponent implements Runnable {
                             }
 
 
-                        }catch (IOException f)
-                        {
+                        } catch (IOException f) {
                             JOptionPane.showMessageDialog(null, "A Fatal Error Occurred", "Darkspace",
                                     JOptionPane.ERROR_MESSAGE);
                             f.printStackTrace();
@@ -216,21 +191,18 @@ public class Application extends JComponent implements Runnable {
                 });
 
 
-
-
-
-
             }
         });
 
         //event handler for sign in button
         SignIn.addActionListener(new ActionListener() {
             boolean SignInAgain = false;
+
             public void actionPerformed(ActionEvent e) {
 
                 welcomePanel.setVisible(false);
                 loginPanel.setVisible(true);
-                if(!SignInAgain) {
+                if (!SignInAgain) {
                     // loginPanel Pane UI Building
                     loginTitle = new JTextField("Welcome! Please enter your information!", 5);
                     loginUsername = new JTextField("username", 5);
@@ -265,56 +237,98 @@ public class Application extends JComponent implements Runnable {
 
                 loginEnter.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                            Authorization login = Authorization.GUISignIn(loginUsername.getText(),
-                                    loginPassword.getText(), isTeacherSignIn.getText());
+                        Authorization login = Authorization.GUISignIn(loginUsername.getText(),
+                                loginPassword.getText(), isTeacherSignIn.getText());
 
-                            if(login.authorized) {
-                                loginPanel.setVisible(false);
-                                if(isTeacherSignIn.getText().equals("1"))
-                                {
-                                    // teacher menu stuff
-                                    //teacherPanel pane UI
-                                    createCourse = new JButton("Create Course");
-                                    removeCourse = new JButton("Remove Course");
-                                    createQuiz = new JButton("Create Quiz");
-                                    editQuiz = new JButton("Edit Quiz");
-                                    removeQuiz = new JButton("Remove Quiz");
-                                    quizSubmissions = new JButton("View or Grade Quiz Submissions");
-                                    viewQuizzes = new JButton("View Quzzies");
-                                    viewCourses = new JButton("View Courses");
-                                    signOut = new JButton("Sign Out");
-                                    GridLayout teacherLayout = new GridLayout(3, 3);
-                                    teacherMenu.setLayout(teacherLayout);
-                                    teacherMenu.add(createCourse);
-                                    teacherMenu.add(removeCourse);
-                                    teacherMenu.add(createQuiz);
-                                    teacherMenu.add(editQuiz);
-                                    teacherMenu.add(removeQuiz);
-                                    teacherMenu.add(quizSubmissions);
-                                    teacherMenu.add(viewQuizzes);
-                                    teacherMenu.add(viewCourses);
-                                    teacherMenu.add(signOut);
-                                    content.add(teacherMenu, BorderLayout.CENTER);
-                                    //teacherPanel pane UI
-                                }
-                                else
-                                {
-                                    // student menu stuff
-                                    //studentPanel pane UI
-                                    viewCoursesQuiz = new JButton("View Courses and Quizzes");
-                                    takeQuizzes = new JButton("Take Quiz");
-                                    viewSubmissions = new JButton("View Submissions");
-                                    signOutStudent = new JButton("Sign Out");
-                                    GridLayout studentLayout = new GridLayout(2, 2);
-                                    studentMenu.setLayout(studentLayout);
-                                    studentMenu.add(viewCoursesQuiz);
-                                    studentMenu.add(takeQuizzes);
-                                    studentMenu.add(viewSubmissions);
-                                    studentMenu.add(signOutStudent);
-                                    content.add(studentMenu, BorderLayout.CENTER);
-                                    //studentPanel pane UI
-                                }
+                        if (login.authorized) {
+                            loginPanel.setVisible(false);
+                            if (isTeacherSignIn.getText().equals("1")) {
+                                // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                                // teacher menu stuff
+                                //teacherPanel pane UI
+                                createCourse = new JButton("Create Course");
+                                removeCourse = new JButton("Remove Course");
+                                createQuiz = new JButton("Create Quiz");
+                                editQuiz = new JButton("Edit Quiz");
+                                removeQuiz = new JButton("Remove Quiz");
+                                quizSubmissions = new JButton("View or Grade Quiz Submissions");
+                                viewQuizzes = new JButton("View Quzzies");
+                                viewCourses = new JButton("View Courses");
+                                signOut = new JButton("Sign Out");
+                                GridLayout teacherLayout = new GridLayout(3, 3);
+                                teacherMenu.setLayout(teacherLayout);
+                                teacherMenu.add(createCourse);
+                                teacherMenu.add(removeCourse);
+                                teacherMenu.add(createQuiz);
+                                teacherMenu.add(editQuiz);
+                                teacherMenu.add(removeQuiz);
+                                teacherMenu.add(quizSubmissions);
+                                teacherMenu.add(viewQuizzes);
+                                teacherMenu.add(viewCourses);
+                                teacherMenu.add(signOut);
+                                content.add(teacherMenu, BorderLayout.CENTER);
+                                //teacherPanel pane UI
+
+                                signOut.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent e) {
+                                        teacherMenu.setVisible(false);
+                                        welcomePanel.setVisible(true);
+
+                                    }
+                                });
+
+                                createCourse.addActionListener(new ActionListener() {
+
+                                    public void actionPerformed(ActionEvent e) {
+                                        try {
+                                            boolean isUnique = false;
+                                            String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (unique): ", "Darkspace",
+                                                    JOptionPane.QUESTION_MESSAGE);
+                                            if (FindCourseIndex(courseName) != -1) {
+                                                JOptionPane.showMessageDialog(null, "Course Already Exists", "Darkspace",
+                                                        JOptionPane.INFORMATION_MESSAGE);
+                                            }
+                                            Course.LocalCourses.add(new Course(courseName));
+                                            Course.Flush();
+
+                                        } catch (IOException f) {
+                                            JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                    JOptionPane.INFORMATION_MESSAGE);
+                                        }
+                                    }
+                                });
+
+
+                            } else {
+                                // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+                                // student menu stuff
+                                //studentPanel pane UI
+                                viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                takeQuizzes = new JButton("Take Quiz");
+                                viewSubmissions = new JButton("View Submissions");
+                                signOutStudent = new JButton("Sign Out");
+                                GridLayout studentLayout = new GridLayout(2, 2);
+                                studentMenu.setLayout(studentLayout);
+                                studentMenu.add(viewCoursesQuiz);
+                                studentMenu.add(takeQuizzes);
+                                studentMenu.add(viewSubmissions);
+                                studentMenu.add(signOutStudent);
+                                content.add(studentMenu, BorderLayout.CENTER);
+                                //studentPanel pane UI
+
+
+                                signOutStudent.addActionListener(new ActionListener() {
+                                    public void actionPerformed(ActionEvent e) {
+                                        studentMenu.setVisible(false);
+                                        welcomePanel.setVisible(true);
+
+                                    }
+                                });
                             }
+                        }
                     }
                 });
             }
@@ -322,16 +336,7 @@ public class Application extends JComponent implements Runnable {
         //welcome pane event handlers
 
 
-
-
-
-
-
-
-
-
     }
-
 
 
     static Authorization auth = new Authorization();
