@@ -7,10 +7,9 @@ public class Submission {
     public int score;
     public String stamp;
 
-    public static void PrintSubmissionBrief(Submission sub, Quiz forQuiz)
-    {
+    public static void PrintSubmissionBrief(Submission sub, Quiz forQuiz) {
         int studentIndex = Student.GetStudentIndex(sub.studentID);
-        if(studentIndex == -1) return;
+        if (studentIndex == -1) return;
         Student s = Student.LocalStudents.get(studentIndex);
 
         System.out.print(forQuiz.QuizName);
@@ -19,11 +18,23 @@ public class Submission {
         System.out.println("Submitted at " + sub.stamp + " by " + s.firstName + " " + s.lastName + "(" + s.username + ")");
     }
 
-    public static void PrintSubmission(Submission sub, Quiz forQuiz)
-    {
+    public static String ReturnSubmissionBrief(Submission sub, Quiz forQuiz) {
+        String toReturn = "";
+        int studentIndex = Student.GetStudentIndex(sub.studentID);
+        if (studentIndex == -1) return "";
+        Student s = Student.LocalStudents.get(studentIndex);
+
+        toReturn = forQuiz.QuizName + " \t\t\t" + (sub.score == -1 ? "Ungraded" : ("Score: " + sub.score)) + "\n" + "Submitted at " + sub.stamp + " by " + s.firstName + " " + s.lastName + "(" + s.username + ")" + "\n";
+//        System.out.print(forQuiz.QuizName);
+//        System.out.print("\t\t\t");
+//        System.out.println((sub.score == -1 ? "Ungraded" : ("Score: " + sub.score)));
+//        System.out.println("Submitted at " + sub.stamp + " by " + s.firstName + " " + s.lastName + "(" + s.username + ")");
+        return toReturn;
+    }
+
+    public static void PrintSubmission(Submission sub, Quiz forQuiz) {
         PrintSubmissionBrief(sub, forQuiz);
-        for(int i = 0; i < sub.answers.size(); i++)
-        {
+        for (int i = 0; i < sub.answers.size(); i++) {
             Question q = forQuiz.questions.get(i);
             Question.PrintQuestion(q);
             System.out.println("Answer:");
@@ -31,12 +42,11 @@ public class Submission {
             System.out.println();
         }
     }
-    public static String ReturnSubmission(Submission sub, Quiz forQuiz)
-    {
-        String toReturn = "";
-        PrintSubmissionBrief(sub, forQuiz);
-        for(int i = 0; i < sub.answers.size(); i++)
-        {
+
+    public static String ReturnSubmission(Submission sub, Quiz forQuiz) {
+        String toReturn = ReturnSubmissionBrief(sub, forQuiz) + "\n";
+
+        for (int i = 0; i < sub.answers.size(); i++) {
             Question q = forQuiz.questions.get(i);
             toReturn = toReturn + Question.ReturnQuestion(q) + "Answer:" + sub.answers.get(i) + "\n\n";
         }
