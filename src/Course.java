@@ -1,121 +1,180 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.List;
 
 public class Course {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = null;
-        ArrayList<String> list = new ArrayList<>();
+    public static ArrayList<Course> LocalCourses;
 
-        Scanner scan = new Scanner(System.in);
+    public static void PrintCourse(Course c)
+    {
+        System.out.print(c.name);
+        System.out.println("(" + c.quizzes.size() + " quizzes)");
+    }
+
+    public static void Initialise() throws IOException {
+        LocalCourses = new ArrayList<>();
+
+        BufferedReader inputStream = null;
 
         try {
-            br = new BufferedReader(new FileReader("data.txt"));
+            inputStream = new BufferedReader(new FileReader("Courses.txt"));
         } catch (FileNotFoundException e) {
-            System.out.println("File Not found!!");
+            File studentsFile = new File("Courses.txt");
+            studentsFile.createNewFile();
+            inputStream = new BufferedReader(new FileReader("Courses.txt"));
         }
 
-        String line = br.readLine();
-        while (line != null) {
-            list.add(line);
-            line = br.readLine();
-        }
+        String line = inputStream.readLine();
+        if(line == null) return;
+        String[] courseNames = line.split(",");
+        for(String courseName : courseNames)
+        {
+            Course thisCourse = new Course(courseName);
 
-//        System.out.println(list);
+            ArrayList<Quiz> quizzes = new ArrayList<>();
 
-        int outerLoop = 5;
-        do {
-            System.out.println("1. Show Courses");
-            System.out.println("2. Add a Course");
-            System.out.println("3. Remove a Course");
-            System.out.println("Press 0 to Quit");
+            BufferedReader quizReader = null;
 
             try {
-                outerLoop = scan.nextInt();
-                scan.nextLine();
-                if (outerLoop >= 0 && outerLoop <= 3) {
-                    if (outerLoop == 1) {
-                        System.out.println("\nCurrent courses:");
-                        for (int i = 0; i < list.size(); i++) {
-                            System.out.println(list.get(i));
-                        }
-                        System.out.println();
-                    } else if (outerLoop == 2) {
-                        System.out.println("Enter course name to add (without spaces)");
-                        String courseAdd;
-                        do {
-                            courseAdd = scan.nextLine();
-                            courseAdd = courseAdd.toUpperCase();
-                            if (courseAdd.contains(" ")) {
-                                System.out.println("Course name should not contain spaces!");
-                            } else {
-                                if (!list.contains(courseAdd)) {
-                                    list.add(courseAdd);
-                                    addCourse(courseAdd, list);
-                                } else {
-                                    System.out.println("Course already exists!");
-                                }
-                            }
-                        } while (courseAdd.contains(" "));
-                    } else if (outerLoop == 3) {
-                        System.out.println("Enter course to be removed!");
-                        String courseRemove;
-                        do {
-                            courseRemove = scan.nextLine();
-                            courseRemove = courseRemove.toUpperCase();
-                            if (list.contains(courseRemove)){
-                                try {
-                                    list.remove(courseRemove);
-                                    removeCourse(courseRemove, list);
-                                } catch (Exception e) {
-                                    System.out.println("There are no courses!");
-                                }
-                            } else if (courseRemove == "0") {
-                                break;
-                            } else {
-                                System.out.println("Please enter a valid course name or enter 0 to return to the previous menu");
-                            }
-                        } while (courseRemove.contains(" "));
-
-                    }
-                } else {
-                    System.out.println("Please select a valid option (value out of range!)");
-                }
-
-            } catch (InputMismatchException e){
-                System.out.println("Please enter a valid option!");
+                quizReader = new BufferedReader(new FileReader("Quizzes.txt"));
+            } catch (FileNotFoundException e) {
+                File quizFile = new File("Quizzes.txt");
+                quizFile.createNewFile();
+                quizReader = new BufferedReader(new FileReader("Quizzes.txt"));
             }
 
-        } while (outerLoop != 0);
-    }
+            String qLine;
+            while ((qLine = quizReader.readLine()) != null)
+            {
+                Quiz thisQuiz = new Quiz();
+                String[] qLineSplit = qLine.split(";");
+                if(qLineSplit.length < 4) break;
+                if(!qLineSplit[0].equals(courseName)) continue;
 
-    public static void addCourse(String courseAdd, ArrayList<String> currentCourses) throws FileNotFoundException {
-        System.out.println("Added course!\n");
+                String quizName = qLineSplit[1];
+                boolean randomized = qLineSplit[2].equals("t");
 
-        FileOutputStream fos = new FileOutputStream("data.txt", true);
-        PrintWriter pw = new PrintWriter(fos);
+                ArrayList<Question> questions = new ArrayList<>();
+                String[] questionStrings = qLineSplit[3].split("~");
 
-        String courseName = String.format("\n" + courseAdd);
+                for(int i = 0; i < questionStrings.length; i++)
+                {
+                    String[] questionAnswers = questionStrings[i].split("`");
+                    questions.add(new Question(questionAnswers[0], questionAnswers[1]));
+                }
 
-        pw.write(courseName);
-        pw.flush();
-        pw.close();
-    }
+                BufferedReader subReader = null;
 
-    public static void removeCourse(String courseRemove, ArrayList<String> currentCourses) throws FileNotFoundException {
-        System.out.println("Removed course!\n");
+                try {
+                    subReader = new BufferedReader(new FileReader("Submissions.txt"));
+                } catch (FileNotFoundException e) {
+                    File subFile = new File("Submissions.txt");
+                    subFile.createNewFile();
+                    subReader = new BufferedReader(new FileReader("Submissions.txt"));
+                }
 
-        FileOutputStream fos = new FileOutputStream("data.txt", false);
-        PrintWriter pw = new PrintWriter(fos);
-        pw.write(currentCourses.get(0));
-        for (int i = 1; i < currentCourses.size(); i++) {
-            pw.write("\n");
-            pw.write(currentCourses.get(i));
+                ArrayList<Submission> submissions = new ArrayList<>();
+                String subLine;
+                while((subLine = subReader.readLine()) != null)
+                {
+                    String[] props = subLine.split(";");
+                    if(props.length < 6) continue;
+
+                    String subCourseName = props[0];
+                    String subQuizName = props[1];
+
+                    if(!(thisCourse.name.equals(subCourseName) && quizName.equals(subQuizName))) continue;
+
+                    String submitter = props[2];
+                    int score = Integer.parseInt(props[3]);
+
+                    String stamp = props[4];
+
+                    String answersString = props[5];
+                    List<String> answers = Arrays.asList(answersString.split("~"));
+                    if(answers.size() != questions.size()) continue;
+
+                    ArrayList<String> answersAsArrList = new ArrayList<>(answers);
+                    submissions.add(new Submission(submitter, answersAsArrList, score, stamp));
+                }
+
+                subReader.close();
+                thisQuiz.questions = questions;
+                thisQuiz.QuizName = quizName;
+                thisQuiz.randomization = randomized;
+                thisQuiz.submissions = submissions;
+                quizzes.add(thisQuiz);
+            }
+
+            quizReader.close();
+            thisCourse.quizzes = quizzes;
+            LocalCourses.add(thisCourse);
         }
 
-        pw.flush();
-        pw.close();
+        inputStream.close();
+    }
+
+    public static void Flush() throws IOException {
+        FileWriter writer = new FileWriter("Courses.txt");
+        FileWriter quizWriter = new FileWriter("Quizzes.txt");
+        FileWriter submissionWriter = new FileWriter("Submissions.txt");
+
+        for(Course course : LocalCourses)
+        {
+            writer.write(course.name);
+            writer.write(',');
+
+            for(Quiz q : course.quizzes)
+            {
+                quizWriter.write(course.name);
+                quizWriter.write(";");
+                quizWriter.write(q.QuizName);
+                quizWriter.write(";");
+                quizWriter.write(q.randomization ? "t" : "f");
+                quizWriter.write(";");
+                for(Question ques : q.questions)
+                {
+                    quizWriter.write(ques.question);
+                    quizWriter.write("`");
+                    quizWriter.write(ques.answers);
+                    quizWriter.write("~");
+                }
+                quizWriter.write("\n");
+
+                for(Submission sub : q.submissions)
+                {
+                    submissionWriter.write(course.name);
+                    submissionWriter.write(";");
+                    submissionWriter.write(q.QuizName);
+                    submissionWriter.write(";");
+                    submissionWriter.write(sub.studentID);
+                    submissionWriter.write(";");
+                    submissionWriter.write("" + sub.score);
+                    submissionWriter.write(";");
+                    submissionWriter.write(sub.stamp);
+                    submissionWriter.write(";");
+                    for(String answer : sub.answers)
+                    {
+                        submissionWriter.write(answer);
+                        submissionWriter.write("~");
+                    }
+                    submissionWriter.write("\n");
+                }
+            }
+        }
+
+        writer.write("\n");
+        writer.close();
+        quizWriter.close();
+        submissionWriter.close();
+    }
+
+    public ArrayList<Quiz> quizzes;
+    public String name;
+
+    public Course(String name) {
+        this.name = name;
+        this.quizzes = new ArrayList<>();
     }
 }
