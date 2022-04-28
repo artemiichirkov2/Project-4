@@ -1,430 +1,757 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 import java.io.*;
 
-public class Application {
+public class Application extends JComponent implements Runnable {
 
-    
-    static int checkAvailability = 1; // Checks the availability of the username for SignUp method
-    static int usernameCheckStudents = 0; // Check the availability for the Student username
-    static int usernameCheckTeachers = 0; // Check the availability for the Teacher username
-    static int signOutCheck = 0; // Checks if user decided to Sign Out or to Sign Up
+    //Welcome Page Definitions
+    JButton WelcomeTitle;
+    JButton SignIn;
+    JButton SignUp;
+    //Sign Up Page Definitions
+    JTextField signupTitle;
+    JTextField firstName;
+    JTextField lastName;
+    JTextField username;
+    JTextField password;
+    JTextField isTeacher;
+    JButton signupEnter;
+    JButton signupBack;
+    // sign in page definitions
+    JTextField loginUsername;
+    JTextField loginPassword;
+    JTextField isTeacherSignIn;
+    JButton loginEnter;
+    JButton loginBack;
+    JTextField loginTitle;
+    //teacher page defitions
+    JButton createCourse;
+    JButton removeCourse;
+    JButton createQuiz;
+    JButton editQuiz;
+    JButton removeQuiz;
+    JButton quizSubmissions;
+    JButton viewQuizzes;
+    JButton viewCourses;
+    JButton signOut;
+    //student page defs
+    JButton viewCoursesQuiz;
+    JButton takeQuizzes;
+    JButton viewSubmissions;
+    JButton signOutStudent;
 
-    static ArrayList<Teacher> teachers = new ArrayList<Teacher>();
-    static ArrayList<Student> students = new ArrayList<Student>();
 
-    public static void main(String[] args) throws Exception {
+    @Override
+    public void run() {
+        JFrame frame = new JFrame("Darkspace");
+        frame.pack();
+        Container content = frame.getContentPane();
+        frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
+        JPanel loginPanel = new JPanel();
+        JPanel teacherMenu = new JPanel();
+        JPanel welcomePanel = new JPanel();
+        JPanel studentMenu = new JPanel();
+        JPanel signupPanel = new JPanel();
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Welcome Pane UI Building
+                WelcomeTitle = new JButton();
+                WelcomeTitle.setText("Welcome! Please either select Sign Up or Sign In!");
+                SignIn = new JButton("Sign In");
+                SignUp = new JButton("Sign Up");
+                WelcomeTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+                SignIn.setAlignmentX(Component.CENTER_ALIGNMENT);
+                SignUp.setAlignmentX(Component.CENTER_ALIGNMENT);
+                BoxLayout welcomeBoxLayout = new BoxLayout(welcomePanel, BoxLayout.Y_AXIS);
+                welcomePanel.setLayout(welcomeBoxLayout);
+                welcomePanel.add(WelcomeTitle);
+                welcomePanel.add(SignUp);
+                welcomePanel.add(SignIn);
+                content.add(welcomePanel, BorderLayout.CENTER);
+        // Welcome Pane UI Building
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //welcome pane event handlers
+
+        //event handler for sign up button
+        SignUp.addActionListener(new ActionListener() {
+            boolean SignUpAgain = false;
+
+            public void actionPerformed(ActionEvent e) {
+                welcomePanel.setVisible(false);
+                signupPanel.setVisible(true);
+
+                if(!SignUpAgain) {
+                    // signupPanel Pane UI Building
+                    signupTitle = new JTextField("Welcome! Please enter your information!", 5);
+                    firstName = new JTextField("firstname", 5);
+                    lastName = new JTextField("lastname", 5);
+                    username = new JTextField("username", 5);
+                    password = new JTextField("password", 5);
+                    isTeacher = new JTextField("Are you a teacher enter 1 for yes or 2 for no", 5);
+                    signupEnter = new JButton();
+                    signupEnter.setText("Enter");
+                    signupBack = new JButton();
+                    signupBack.setText("Back");
+                    BoxLayout signUpLayout = new BoxLayout(signupPanel, BoxLayout.Y_AXIS);
+                    // defining boxlayout
+                    signupPanel.setLayout(signUpLayout);
+                    signupPanel.add(signupTitle);
+                    signupPanel.add(firstName);
+                    signupPanel.add(lastName);
+                    signupPanel.add(username);
+                    signupPanel.add(password);
+                    signupPanel.add(isTeacher);
+                    signupPanel.add(signupEnter);
+                    signupPanel.add(signupBack);
+                    content.add(signupPanel, BorderLayout.CENTER);
+                    // signupPanel Pane UI Building
+                }
+                updateUI();
+                SignUpAgain = true;
+
+
+
+
+                signupBack.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        signupPanel.setVisible(false);
+                        welcomePanel.setVisible(true);
+
+                    }
+                });
+
+                signupEnter.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            Authorization signup = Authorization.GUISignUp(firstName.getText(), lastName.getText(),
+                                    username.getText(), password.getText(), isTeacher.getText());
+
+                            if(signup.authorized) {
+                                signupPanel.setVisible(false);
+                                if(isTeacher.getText().equals("1"))
+                                {
+                                    // teacher menu stuff
+                                    //teacherPanel pane UI
+                                    createCourse = new JButton("Create Course");
+                                    removeCourse = new JButton("Remove Course");
+                                    createQuiz = new JButton("Create Quiz");
+                                    editQuiz = new JButton("Edit Quiz");
+                                    removeQuiz = new JButton("Remove Quiz");
+                                    quizSubmissions = new JButton("View or Grade Quiz Submissions");
+                                    viewQuizzes = new JButton("View Quzzies");
+                                    viewCourses = new JButton("View Courses");
+                                    signOut = new JButton("Sign Out");
+                                    GridLayout teacherLayout = new GridLayout(3, 3);
+                                    teacherMenu.setLayout(teacherLayout);
+                                    teacherMenu.add(createCourse);
+                                    teacherMenu.add(removeCourse);
+                                    teacherMenu.add(createQuiz);
+                                    teacherMenu.add(editQuiz);
+                                    teacherMenu.add(removeQuiz);
+                                    teacherMenu.add(quizSubmissions);
+                                    teacherMenu.add(viewQuizzes);
+                                    teacherMenu.add(viewCourses);
+                                    teacherMenu.add(signOut);
+                                    content.add(teacherMenu, BorderLayout.CENTER);
+                                    //teacherPanel pane UI
+                                }
+                                else
+                                {
+                                // student menu stuff
+                                    //studentPanel pane UI
+                                    viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                    takeQuizzes = new JButton("Take Quiz");
+                                    viewSubmissions = new JButton("View Submissions");
+                                    signOutStudent = new JButton("Sign Out");
+                                    GridLayout studentLayout = new GridLayout(2, 2);
+                                    studentMenu.setLayout(studentLayout);
+                                    studentMenu.add(viewCoursesQuiz);
+                                    studentMenu.add(takeQuizzes);
+                                    studentMenu.add(viewSubmissions);
+                                    studentMenu.add(signOutStudent);
+                                    content.add(studentMenu, BorderLayout.CENTER);
+                                    //studentPanel pane UI
+                                }
+                            }
+
+
+                        }catch (IOException f)
+                        {
+                            JOptionPane.showMessageDialog(null, "A Fatal Error Occurred", "Darkspace",
+                                    JOptionPane.ERROR_MESSAGE);
+                            f.printStackTrace();
+                        }
+                    }
+                });
+
+
+
+
+
+
+            }
+        });
+
+        //event handler for sign in button
+        SignIn.addActionListener(new ActionListener() {
+            boolean SignInAgain = false;
+            public void actionPerformed(ActionEvent e) {
+
+                welcomePanel.setVisible(false);
+                loginPanel.setVisible(true);
+                if(!SignInAgain) {
+                    // loginPanel Pane UI Building
+                    loginTitle = new JTextField("Welcome! Please enter your information!", 5);
+                    loginUsername = new JTextField("username", 5);
+                    loginPassword = new JTextField("password", 5);
+                    isTeacherSignIn = new JTextField("Are you a teacher enter 1 for yes or 2 for no");
+                    loginEnter = new JButton();
+                    loginEnter.setText("Enter");
+                    loginBack = new JButton();
+                    loginBack.setText("Back");
+                    BoxLayout loginLayout = new BoxLayout(loginPanel, BoxLayout.Y_AXIS);
+                    // defining boxlayout
+                    loginPanel.setLayout(loginLayout);
+                    loginPanel.add(loginTitle);
+                    loginPanel.add(loginUsername);
+                    loginPanel.add(loginPassword);
+                    loginPanel.add(isTeacherSignIn);
+                    loginPanel.add(loginEnter);
+                    loginPanel.add(loginBack);
+                    content.add(loginPanel, BorderLayout.CENTER);
+                    // loginPanel Pane UI Building
+                }
+                updateUI();
+                SignInAgain = true;
+
+                loginBack.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        loginPanel.setVisible(false);
+                        welcomePanel.setVisible(true);
+
+                    }
+                });
+
+                loginEnter.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                            Authorization login = Authorization.GUISignIn(loginUsername.getText(),
+                                    loginPassword.getText(), isTeacherSignIn.getText());
+
+                            if(login.authorized) {
+                                loginPanel.setVisible(false);
+                                if(isTeacherSignIn.getText().equals("1"))
+                                {
+                                    // teacher menu stuff
+                                    //teacherPanel pane UI
+                                    createCourse = new JButton("Create Course");
+                                    removeCourse = new JButton("Remove Course");
+                                    createQuiz = new JButton("Create Quiz");
+                                    editQuiz = new JButton("Edit Quiz");
+                                    removeQuiz = new JButton("Remove Quiz");
+                                    quizSubmissions = new JButton("View or Grade Quiz Submissions");
+                                    viewQuizzes = new JButton("View Quzzies");
+                                    viewCourses = new JButton("View Courses");
+                                    signOut = new JButton("Sign Out");
+                                    GridLayout teacherLayout = new GridLayout(3, 3);
+                                    teacherMenu.setLayout(teacherLayout);
+                                    teacherMenu.add(createCourse);
+                                    teacherMenu.add(removeCourse);
+                                    teacherMenu.add(createQuiz);
+                                    teacherMenu.add(editQuiz);
+                                    teacherMenu.add(removeQuiz);
+                                    teacherMenu.add(quizSubmissions);
+                                    teacherMenu.add(viewQuizzes);
+                                    teacherMenu.add(viewCourses);
+                                    teacherMenu.add(signOut);
+                                    content.add(teacherMenu, BorderLayout.CENTER);
+                                    //teacherPanel pane UI
+                                }
+                                else
+                                {
+                                    // student menu stuff
+                                    //studentPanel pane UI
+                                    viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                    takeQuizzes = new JButton("Take Quiz");
+                                    viewSubmissions = new JButton("View Submissions");
+                                    signOutStudent = new JButton("Sign Out");
+                                    GridLayout studentLayout = new GridLayout(2, 2);
+                                    studentMenu.setLayout(studentLayout);
+                                    studentMenu.add(viewCoursesQuiz);
+                                    studentMenu.add(takeQuizzes);
+                                    studentMenu.add(viewSubmissions);
+                                    studentMenu.add(signOutStudent);
+                                    content.add(studentMenu, BorderLayout.CENTER);
+                                    //studentPanel pane UI
+                                }
+                            }
+                    }
+                });
+            }
+        });
+        //welcome pane event handlers
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+    static Authorization auth = new Authorization();
+
+    public static void main(String[] args) throws IOException {
+
+        Student.Initialise();
+        Teacher.Initialise();
+        Course.Initialise();
+
+        SwingUtilities.invokeLater(new Application());
+
+
         Scanner scanner = new Scanner(System.in);
-        readStudents();
-        readTeachers();
 
-        System.out.println("Welcome to the Quiz app!\n");
-        do {
+
+        while (!auth.authorized) {
+            System.out.println("Welcome to the Quiz app!\n");
             System.out.println("Do you want to Sign In or Sign Up?\n[1]Sign In\n[2]Sign Up");
             String choice = scanner.nextLine();
 
-            if (choice.equals("1")) {
-                signIn(scanner);
-            } else if (choice.equals("2")) {
-                signUp(scanner);
-            } else {
-                System.out.println("Wrong answer, try again\n");
+            switch (choice) {
+                case "1":
+                    auth = Authorization.SignIn(scanner);
+                    break;
+                case "2":
+                    auth = Authorization.SignUp(scanner);
+                    break;
+                default:
+                    System.out.println("Not allowed");
+                    break;
             }
-        } while (signOutCheck == 0);
+        }
 
+        switch (auth.type) {
+            case Student -> StudentOptions(scanner);
+            case Teacher -> TeacherOptions(scanner);
+        }
 
+        System.out.println("Signed out.");
     }
-    
-    public static void signIn(Scanner scanner) throws Exception { 
 
-        System.out.println("Sign In\n");
-        System.out.println("Are you a Teacher or a Student?\n[1]Teacher\n[2]Student");
-        String choice2 = scanner.nextLine();
 
-        if (choice2.equals("1")) {
-            System.out.println("Enter your username");
-            String username = scanner.nextLine();
+    public static int FindCourseIndex(String courseName) {
+        int index = -1;
 
-            for (Teacher item : teachers) {
+        for (int i = 0; i < Course.LocalCourses.size(); i++) {
+            if (Course.LocalCourses.get(i).name.equals(courseName)) {
+                index = i;
+                break;
+            }
+        }
 
-                if (username.equals(item.getUsername())) {
-                    usernameCheckTeachers = 1;
-                    System.out.println("Enter your password");
-                    String password = scanner.nextLine();
-                    if (password.equals(item.getPassword())) {
+        return index;
+    }
 
-                        System.out.println("Success!\n");
+    public static int FindQuizIndexInCourse(Course course, String quizName) {
+        int index = -1;
 
-                        System.out.println("Menu\n");
-                        System.out.println("[1]Change Password\n" + 
-                            "[2]Edit Username\n" + "[3]Delete Account\n" + "[4]Sign Out");
-                        String menuAnswer = scanner.nextLine();
-                        switch(menuAnswer) {
-                            case "1":
-                                changePasswordTeacher(username, scanner);
-                                break;
-                            case "2":
-                                editUsernameTeacher(scanner);
-                                break;
-                            case "3":
-                                deleteAccTeacher(username, scanner);
-                                break;
-                            case "4":
-                                signOut(scanner);
-                                break;
-                            default:
-                                System.out.println("Incorrect answer, try again"); //Should call the method!
-                        }
-                        //menuTeacher(username, scanner);
+        for (int i = 0; i < course.quizzes.size(); i++) {
+            if (course.quizzes.get(i).QuizName.equals(quizName)) {
+                index = i;
+                break;
+            }
+        }
 
-                    } else {
-                        System.out.println("Password doesn't match\n");
+        return index;
+    }
+
+    private static int AddQuizFromFile(Scanner scanner, Course thisCourse, int courseIndex) throws IOException {
+        String choice;
+        System.out.println("Enter Path to Quiz File (First Line Quiz Name, Then every two consecutive lines contain questions and answer options: ");
+        String quizFileName = scanner.nextLine();
+
+        File file = new File(quizFileName);
+        if (!file.exists()) {
+            System.out.println("File " + file.getAbsolutePath() + " Does Not Exist");
+            return 0;
+        }
+
+        System.out.println("Should Question Order be Random? 1 for yes and 2 for no");
+        choice = scanner.nextLine();
+
+        boolean random = choice.equals("1");
+
+        Quiz q = new Quiz(file, random, thisCourse);
+        if (q.QuizName.equals("71239")) {
+            return 1;
+        }
+        thisCourse.quizzes.add(q);
+        Course.Flush();
+        return 2;
+    }
+
+    private static int RemoveQuiz(Course course, String quizName) throws IOException {
+        int index = FindQuizIndexInCourse(course, quizName);
+
+        if (index == -1) {
+            return 0;
+        }
+
+        course.quizzes.remove(index);
+        Course.Flush();
+        return 1;
+    }
+
+    public static void TeacherOptions(Scanner scanner) throws IOException {
+        while (auth.authorized) {
+            System.out.println("1. Create Course\n" +
+                    "2. Remove Course\n" +
+                    "3. Create Quiz\n" +
+                    "4. Edit Quiz\n" +
+                    "5. Remove Quiz\n" +
+                    "6. View/Grade Quiz Submissions\n" +
+                    "7. View Quizzes\n" +
+                    "8. View Courses\n" +
+                    "9. Sign Out");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    boolean isUnique = false;
+                    String courseName = "";
+
+                    System.out.println("Enter Course Name (unique): ");
+                    courseName = scanner.nextLine();
+
+                    if (FindCourseIndex(courseName) != -1) {
+                        System.out.println("Course Already Exists");
+                        break;
                     }
-                }
-            }
-            if (usernameCheckTeachers != 1) {
-                System.out.println("There is no such username in the system\n");
-            }
-            usernameCheckTeachers = 0;
-        } else if (choice2.equals("2")) {
-            System.out.println("Enter your username");
 
-            String username = scanner.nextLine();
+                    Course.LocalCourses.add(new Course(courseName));
+                    Course.Flush();
+                    break;
+                case "2":
+                    System.out.println("Enter Course Name: ");
+                    courseName = scanner.nextLine();
 
-            for (Student item : students) {
+                    int index = FindCourseIndex(courseName);
 
-                if (username.equals(item.getUsername())) {
-                    usernameCheckStudents = 1;
-                    System.out.println("Enter your password");
-                    String password = scanner.nextLine();
-                    if (password.equals(item.getPassword())) {
-
-                        System.out.println("Success!\n");
-
-                        System.out.println("Menu\n");
-                        System.out.println("[1]Change Password\n" + 
-                            "[2]Edit Username\n" + "[3]Delete Account\n" + "[4]Sign Out");
-                        String menuAnswer = scanner.nextLine();
-                        switch(menuAnswer) {
-                            case "1":
-                                changePasswordStudent(username, scanner);
-                                break;
-                            case "2":
-                                editUsernameStudent(scanner);
-                                break;
-                            case "3":
-                                deleteAccStudent(username, scanner);
-                                break;
-                            case "4":
-                                signOut(scanner);
-                                break;
-                            default:
-                                System.out.println("Incorrect answer, try again"); //Should call the method!
-                        }
-                        //menuStudent(username, scanner);
-
-                    } else {
-                        System.out.println("Password doesn't match");
+                    if (index == -1) {
+                        System.out.println("No such course exists");
+                        break;
                     }
-                }
-            }
-            if (usernameCheckStudents != 1) {
-                System.out.println("There is no such username in the system\n");
-            }
-            usernameCheckStudents = 0;
-        } else {
-            System.out.println("Wrong answer, try again\n");
-        }
-    }
-    
-    public static void signUp(Scanner scanner) throws Exception { 
 
-        System.out.println("Sign Up\n");
-        System.out.println("Are you a Teacher or a Student?\n[1]Teacher\n[2]Student");
-        String choice2 = scanner.nextLine();
-
-
-        if (choice2.equals("1")) {
-            System.out.println("Enter your first name");
-            String firstName = scanner.nextLine();
-            System.out.println("Enter your last name");
-            String lastName = scanner.nextLine();
-            System.out.println("Enter the username");
-            String username = scanner.nextLine();
-
-            for (Teacher item : teachers) {
-
-                if (username.equals(item.getUsername())) {
-                    System.out.println("This username is already taken\n");
-                    checkAvailability = 0;
+                    Course.LocalCourses.remove(index);
+                    Course.Flush();
+                    System.out.println("Course Removed");
                     break;
-                }
+                case "3":
+                    System.out.println("Enter Course Name: ");
+                    courseName = scanner.nextLine();
 
-            }
+                    index = FindCourseIndex(courseName);
 
-            if (checkAvailability == 1) {
+                    if (index == -1) {
+                        System.out.println("No such course exists");
+                        break;
+                    }
 
-                System.out.println("Enter the password");
-                String password = scanner.nextLine();
-                teachers.add(new Teacher(firstName, lastName, username, password));
-                writeTeacher(firstName, lastName, username, password);
-                signIn(scanner);
-            
-            }
+                    Course thisCourse = Course.LocalCourses.get(index);
 
-            checkAvailability = 1;
-
-        } else if (choice2.equals("2")) {
-            System.out.println("Enter your first name");
-            String firstName = scanner.nextLine();
-            System.out.println("Enter your last name");
-            String lastName = scanner.nextLine();
-            System.out.println("Enter the username");
-            String username = scanner.nextLine();
-
-            for (Student item : students) {
-
-                if (username.equals(item.getUsername())) {
-                    System.out.println("This username is already taken\n");
-                    checkAvailability = 0;
+                    int status = AddQuizFromFile(scanner, thisCourse, index);
+                    if (status == 1) {
+                        System.out.println("Duplicate Quiz Already Exists");
+                    } else if (status == 2) {
+                        System.out.println("Added Quiz");
+                    }
                     break;
-                }
-            }
+                case "4":
+                    System.out.println("Enter Course Name (Where The Quiz Is): ");
+                    courseName = scanner.nextLine();
 
-            if (checkAvailability == 1) {
+                    index = FindCourseIndex(courseName);
 
-                System.out.println("Enter the password");
-                String password = scanner.nextLine();
-                students.add(new Student(firstName, lastName, username, password));
-                writeStudent(firstName, lastName, username, password);
-                signIn(scanner);
-                
-            }
+                    if (index == -1) {
+                        System.out.println("No such course exists");
+                        break;
+                    }
 
-            checkAvailability = 1;
+                    thisCourse = Course.LocalCourses.get(index);
 
-        } else {
-            System.out.println("Wronmg answer, try again");
-        }
+                    System.out.println("Enter Quiz Name: ");
+                    String quizName = scanner.nextLine();
+                    status = RemoveQuiz(thisCourse, quizName);
 
-    }
+                    if (status == 0) {
+                        System.out.println("No such quiz found in this course");
+                        break;
+                    }
 
-    public static void changePasswordTeacher(String username, Scanner scanner) throws Exception {
-        for (Teacher item : teachers) {
-            if (username.equals(item.getUsername())) {
-                System.out.println("Enter your old password");
-                String oldPassword = scanner.nextLine();
-                if (oldPassword.equals(item.getPassword())) {
-                    System.out.println("Enter new password");
-                    String newPassword = scanner.nextLine();
-                    item.setPassword(newPassword);
-                    signIn(scanner);
-                } else {
-                    System.out.println("Wrong password\n");
-                    signIn(scanner);
-                }
-                
-            }
-        }
-    }
-
-    public static void changePasswordStudent(String username, Scanner scanner) throws Exception {
-        for (Student item : students) {
-            if (username.equals(item.getUsername())) {
-                System.out.println("Enter your old password");
-                String oldPassword = scanner.nextLine();
-                if (oldPassword.equals(item.getPassword())) {
-                    System.out.println("Enter new password");
-                    String newPassword = scanner.nextLine();
-                    item.setPassword(newPassword);
-                    signIn(scanner);
-                } else {
-                    System.out.println("Wrong password\n");
-                    signIn(scanner);
-                }
-                
-            }
-        }
-    }
-
-    public static void editUsernameTeacher(Scanner scanner) throws Exception {
-        for (Teacher item : teachers) {
-            System.out.println("Enter new username");
-            String newUsername = scanner.nextLine();
-            item.setUsername(newUsername);
-            signIn(scanner); 
-        }
-    }
-
-    public static void editUsernameStudent(Scanner scanner) throws Exception {
-        for (Student item : students) {
-            System.out.println("Enter new username");
-            String newUsername = scanner.nextLine();
-            item.setUsername(newUsername);
-            signIn(scanner); 
-        }
-    }
-
-    public static void deleteAccTeacher(String username, Scanner scanner) throws Exception {
-        BufferedWriter outputStream = null;
-        BufferedReader inputStream = null;
-        String recordingTeacher = "";
-
-        try {
-            for (Teacher item : teachers) {
-                if (username.equals(item.getUsername())) {
-                    recordingTeacher = item.getFirstName() + "," +
-                        item.getLastName() + "," + item.getUsername() +
-                        "," + item.getPassword();
-                    teachers.remove(item);
+                    status = AddQuizFromFile(scanner, thisCourse, index);
+                    if (status == 1) {
+                        System.out.println("Duplicate Quiz Already Exists");
+                    } else if (status == 2) {
+                        System.out.println("Added Quiz");
+                    }
                     break;
-                }
-            }
-            File tempFile = new File("tempFile.txt");
-            File teachersFile = new File("Teachers.txt");
-            outputStream = new BufferedWriter(new FileWriter(tempFile));
-            inputStream = new BufferedReader(new FileReader(teachersFile));
+                case "5":
+                    System.out.println("Enter Course Name (Where The Quiz Is): ");
+                    courseName = scanner.nextLine();
 
-            
-            String line;
-            while ((line = inputStream.readLine()) != null) {
-                String trimLine = line.trim();
+                    index = FindCourseIndex(courseName);
 
-                if (trimLine.equals(recordingTeacher)) {
-                    continue;
-                }
+                    if (index == -1) {
+                        System.out.println("No such course exists");
+                        break;
+                    }
 
-                outputStream.write(line + System.getProperty("line.separator"));
-            }
+                    thisCourse = Course.LocalCourses.get(index);
 
-            boolean renaming = tempFile.renameTo(teachersFile); 
-    
-            System.out.println("Your account has been deleted\n");
-            signUp(scanner);
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
-            
-    }
+                    System.out.println("Enter Quiz Name: ");
+                    quizName = scanner.nextLine();
+                    status = RemoveQuiz(thisCourse, quizName);
 
-    public static void deleteAccStudent(String username, Scanner scanner) throws Exception {
-        BufferedWriter outputStream = null;
-        BufferedReader inputStream = null;
-        String recordingStudent = "";
-
-        try {
-            for (Student item : students) {
-                if (username.equals(item.getUsername())) {
-                    recordingStudent = item.getFirstName() + "," +
-                        item.getLastName() + "," + item.getUsername() +
-                        "," + item.getPassword();
-                    students.remove(item);
+                    if (status == 0) System.out.println("No such quiz found");
+                    else System.out.println("Quiz deleted");
                     break;
-                }
-            }
-            File tempFile = new File("tempFile.txt");
-            File studentsFile = new File("Students.txt");
-            outputStream = new BufferedWriter(new FileWriter(tempFile));
-            inputStream = new BufferedReader(new FileReader(studentsFile));
+                case "6":
+                    System.out.println("Enter Course Name: ");
+                    courseName = scanner.nextLine();
 
-            
-            String line;
-            while ((line = inputStream.readLine()) != null) {
-                String trimLine = line.trim();
+                    index = FindCourseIndex(courseName);
 
-                if (trimLine.equals(recordingStudent)) {
-                    continue;
-                }
+                    if (index == -1) {
+                        System.out.println("No such Course Exists");
+                        break;
+                    }
 
-                outputStream.write(line + System.getProperty("line.separator"));
-            }
+                    thisCourse = Course.LocalCourses.get(index);
 
-            boolean renaming = tempFile.renameTo(studentsFile); 
-    
-            System.out.println("Your account has been deleted\n");
-            signUp(scanner);
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
+                    System.out.println("Enter Quiz Name: ");
+                    quizName = scanner.nextLine();
+
+                    index = FindQuizIndexInCourse(thisCourse, quizName);
+
+                    if (index == -1) {
+                        System.out.println("No such quiz exists. ");
+                        break;
+                    }
+
+                    Quiz thisQuiz = thisCourse.quizzes.get(index);
+
+                    int i = 1;
+                    for (Submission s : thisQuiz.submissions) {
+                        System.out.println(i + ":");
+                        Submission.PrintSubmissionBrief(s, thisQuiz);
+                        i += 1;
+                        System.out.println();
+                    }
+
+                    Submission sub;
+                    i -= 1;
+
+                    if (i == 0) {
+                        System.out.println("No Submissions Yet");
+                        break;
+                    }
+
+                    int choiceNum;
+
+                    while (true) {
+                        System.out.println("Select Submission (1 to " + i + ") to View More Closely (or press 0 to exit)");
+                        choice = scanner.nextLine();
+
+                        try {
+                            choiceNum = Integer.parseInt(choice);
+                        } catch (NumberFormatException e) {
+                            System.out.println("That is not a number");
+                            continue;
+                        }
+
+                        if (choiceNum == 0) {
+                            break;
+                        }
+
+                        if (choiceNum < 1 || choiceNum > i) {
+                            System.out.println("PLease Choose a Valid Option");
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                    if (choiceNum == 0) {
+                        break;
+                    } else {
+                        sub = thisQuiz.submissions.get(choiceNum - 1);
+                    }
+
+                    Submission.PrintSubmission(sub, thisQuiz);
+
+                    while (true) {
+                        System.out.println("Enter Score (enter -1 to ungrade): ");
+                        choice = scanner.nextLine();
+
+                        try {
+                            choiceNum = Integer.parseInt(choice);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Not a number");
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                    sub.score = choiceNum;
+                    Course.Flush();
+                    break;
+                case "7":
+                    for (Course c : Course.LocalCourses) {
+                        System.out.println("Course: " + c.name);
+                        for (Quiz q : c.quizzes) {
+                            Quiz.PrintQuiz(q);
+                            System.out.println();
+                        }
+                        System.out.println();
+                    }
+                    break;
+                case "8":
+                    for (Course c : Course.LocalCourses) {
+                        Course.PrintCourse(c);
+                        System.out.println();
+                    }
+                    break;
+                case "9":
+                    auth.authorized = false;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option.");
+                    break;
             }
         }
     }
 
-    public static void writeStudent(String firstName, String lastName, String username, String password) throws IOException {
-        PrintWriter outputStream = null;
-        String recordingStudent = firstName + "," +
-            lastName + "," + username + "," + password;
+    public static void StudentOptions(Scanner scanner) throws IOException {
+        while (auth.authorized) {
+            System.out.println("1. View Courses and Quizzes\n2. Submit Solutions\n3. View My Submissions\n4. Sign Out");
 
-        try {
-            
-            outputStream = new PrintWriter(new FileWriter("Students.txt", true));
-            outputStream.println(recordingStudent);
-        } finally {
-            outputStream.close();
-        } 
-    }
+            String choice = scanner.nextLine();
 
-    public static void writeTeacher(String firstName, String lastName, String username, String password) throws IOException {
-        PrintWriter outputStream = null;
-        String recordingTeacher = firstName + "," +
-            lastName + "," + username + "," + password;
+            switch (choice) {
+                case "1":
+                    for (Course c : Course.LocalCourses) {
+                        System.out.println("Course: " + c.name);
+                        for (Quiz q : c.quizzes) {
+                            Quiz.PrintQuizBrief(q);
+                            System.out.println();
+                        }
+                        if (c.quizzes.size() == 0) System.out.println();
+                    }
+                    break;
+                case "2":
+                    System.out.println("Enter Course Name: ");
+                    String courseName = scanner.nextLine();
 
-        try {
-            outputStream = new PrintWriter(new FileWriter("Teachers.txt", true));
-            outputStream.println(recordingTeacher);
-        } finally {
-            outputStream.close();
-        } 
-    }
+                    int index = FindCourseIndex(courseName);
 
-    public static void readStudents() throws IOException {
-        BufferedReader inputStream = null;
+                    if (index == -1) {
+                        System.out.println("No Such Course Exists");
+                        break;
+                    }
 
-        try {
-            inputStream = new BufferedReader(new FileReader("Students.txt"));
-            
-            String line;
-            if (inputStream != null) {
-                while ((line = inputStream.readLine()) != null) {
-                    String[] credentialsStudent = line.split(",");
-                    students.add(new Student(credentialsStudent[0],
-                        credentialsStudent[1], credentialsStudent[2], credentialsStudent[3]));
-                }
+                    Course course = Course.LocalCourses.get(index);
+
+                    System.out.println("Enter Quiz Name: ");
+                    String quizName = scanner.nextLine();
+
+                    index = FindQuizIndexInCourse(course, quizName);
+
+                    if (index == -1) {
+                        System.out.println("No Such Quiz Exists");
+                        break;
+                    }
+
+                    Quiz quiz = course.quizzes.get(index);
+                    ArrayList<Question> questionsCopy = new ArrayList<>(quiz.questions);
+//                    System.out.println(questionsCopy.size());
+                    if (quiz.randomization) Collections.shuffle(questionsCopy);
+
+                    ArrayList<String> answers = new ArrayList<>();
+                    for (int i = 0; i < questionsCopy.size(); i++) {
+                        answers.add("");
+                    }
+
+                    for (int i = 0; i < questionsCopy.size(); i++) {
+                        Question thisQuestion = questionsCopy.get(i);
+                        int indexOfThisQuestionReally = quiz.randomization ? quiz.questions.indexOf(thisQuestion) : i;
+                        Question.PrintQuestion(thisQuestion);
+                        System.out.println("Answer (Enter Submits):");
+                        answers.set(indexOfThisQuestionReally, scanner.nextLine());
+                    }
+
+                    Submission thisSubmission = new Submission(auth.username, answers);
+                    quiz.submissions.add(thisSubmission);
+                    Course.Flush();
+                    break;
+                case "3":
+                    for (Course c : Course.LocalCourses) {
+                        for (Quiz q : c.quizzes) {
+                            for (Submission s : q.submissions) {
+                                if (s.studentID.equals(auth.username)) {
+                                    Submission.PrintSubmission(s, q);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case "4":
+                    auth.authorized = false;
+                    break;
+                default:
+                    System.out.println("Please enter a valid option.");
+                    break;
             }
-        } finally {
-            inputStream.close(); 
         }
     }
-
-    public static void readTeachers() throws IOException {
-        BufferedReader inputStream = null;
-
-        try {
-            inputStream = new BufferedReader(new FileReader("Teachers.txt"));
-            
-            String line;
-            if (inputStream != null) {
-                while ((line = inputStream.readLine()) != null) {
-                    String[] credentialsTeacher = line.split(",");
-                    teachers.add(new Teacher(credentialsTeacher[0],
-                        credentialsTeacher[1], credentialsTeacher[2], credentialsTeacher[3]));
-                }
-            }
-        } finally {
-            inputStream.close();
-        }
-    }
-
-    public static void signOut(Scanner scanner) throws IOException {
-        System.out.println("Signing out...");
-        signOutCheck = 1;
-    }
-
 }
+
+
+
