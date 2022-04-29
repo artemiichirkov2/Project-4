@@ -131,55 +131,57 @@ public class Application extends JComponent implements Runnable {
                         try {
                             Authorization signup = Authorization.GUISignUp(firstName.getText(), lastName.getText(),
                                     username.getText(), password.getText(), isTeacher.getText());
+                            if(signup != null) {
+                                if (signup.authorized) {
+                                    signupPanel.setVisible(false);
+                                    if (isTeacher.getText().equals("1")) {
+                                        // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-                            if (signup.authorized) {
-                                signupPanel.setVisible(false);
-                                if (isTeacher.getText().equals("1")) {
-                                    // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        // teacher menu stuff
+                                        //teacherPanel pane UI
+                                        createCourse = new JButton("Create Course");
+                                        removeCourse = new JButton("Remove Course");
+                                        createQuiz = new JButton("Create Quiz");
+                                        editQuiz = new JButton("Edit Quiz");
+                                        removeQuiz = new JButton("Remove Quiz");
+                                        quizSubmissions = new JButton("Grade Quiz Submissions");
+                                        viewQuizzes = new JButton("View Quizzes");
+                                        viewCourses = new JButton("View Courses");
+                                        signOut = new JButton("Sign Out");
+                                        GridLayout teacherLayout = new GridLayout(3, 3);
+                                        teacherMenu.setLayout(teacherLayout);
+                                        teacherMenu.add(createCourse);
+                                        teacherMenu.add(removeCourse);
+                                        teacherMenu.add(createQuiz);
+                                        teacherMenu.add(editQuiz);
+                                        teacherMenu.add(removeQuiz);
+                                        teacherMenu.add(quizSubmissions);
+                                        teacherMenu.add(viewQuizzes);
+                                        teacherMenu.add(viewCourses);
+                                        teacherMenu.add(signOut);
+                                        content.add(teacherMenu, BorderLayout.CENTER);
+                                        //teacherPanel pane UI
+                                    } else {
+                                        // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-                                    // teacher menu stuff
-                                    //teacherPanel pane UI
-                                    createCourse = new JButton("Create Course");
-                                    removeCourse = new JButton("Remove Course");
-                                    createQuiz = new JButton("Create Quiz");
-                                    editQuiz = new JButton("Edit Quiz");
-                                    removeQuiz = new JButton("Remove Quiz");
-                                    quizSubmissions = new JButton("Grade Quiz Submissions");
-                                    viewQuizzes = new JButton("View Quizzes");
-                                    viewCourses = new JButton("View Courses");
-                                    signOut = new JButton("Sign Out");
-                                    GridLayout teacherLayout = new GridLayout(3, 3);
-                                    teacherMenu.setLayout(teacherLayout);
-                                    teacherMenu.add(createCourse);
-                                    teacherMenu.add(removeCourse);
-                                    teacherMenu.add(createQuiz);
-                                    teacherMenu.add(editQuiz);
-                                    teacherMenu.add(removeQuiz);
-                                    teacherMenu.add(quizSubmissions);
-                                    teacherMenu.add(viewQuizzes);
-                                    teacherMenu.add(viewCourses);
-                                    teacherMenu.add(signOut);
-                                    content.add(teacherMenu, BorderLayout.CENTER);
-                                    //teacherPanel pane UI
-                                } else {
-                                    // MUST TURN THIS INTO A METHOD SOMEHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-                                    // student menu stuff
-                                    //studentPanel pane UI
-                                    viewCoursesQuiz = new JButton("View Courses and Quizzes");
-                                    takeQuizzes = new JButton("Take Quiz");
-                                    viewSubmissions = new JButton("View Submissions");
-                                    signOutStudent = new JButton("Sign Out");
-                                    GridLayout studentLayout = new GridLayout(2, 2);
-                                    studentMenu.setLayout(studentLayout);
-                                    studentMenu.add(viewCoursesQuiz);
-                                    studentMenu.add(takeQuizzes);
-                                    studentMenu.add(viewSubmissions);
-                                    studentMenu.add(signOutStudent);
-                                    content.add(studentMenu, BorderLayout.CENTER);
-                                    //studentPanel pane UI
+                                        // student menu stuff
+                                        //studentPanel pane UI
+                                        viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                        takeQuizzes = new JButton("Take Quiz");
+                                        viewSubmissions = new JButton("View Submissions");
+                                        signOutStudent = new JButton("Sign Out");
+                                        GridLayout studentLayout = new GridLayout(2, 2);
+                                        studentMenu.setLayout(studentLayout);
+                                        studentMenu.add(viewCoursesQuiz);
+                                        studentMenu.add(takeQuizzes);
+                                        studentMenu.add(viewSubmissions);
+                                        studentMenu.add(signOutStudent);
+                                        content.add(studentMenu, BorderLayout.CENTER);
+                                        //studentPanel pane UI
+                                    }
                                 }
                             }
+
 
 
                         } catch (IOException f) {
@@ -560,24 +562,6 @@ public class Application extends JComponent implements Runnable {
                                 });
 
 
-                                /*
-                                case "7":
-                    for (Course c : Course.LocalCourses) {
-                        System.out.println("Course: " + c.name);
-                        for (Quiz q : c.quizzes) {
-                            Quiz.PrintQuiz(q);
-                            System.out.println();
-                        }
-                        System.out.println();
-                    }
-                    break;
-                case "8":
-                    for (Course c : Course.LocalCourses) {
-                        Course.PrintCourse(c);
-                        System.out.println();
-                    }
-                    break;
-                                 */
 
 
 

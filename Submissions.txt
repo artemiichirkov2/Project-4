@@ -1,2 +1,0 @@
-testcourse again;abcquiz;a;5;2022-04-28T13:52:33.378833100;a~c~d~
-testcourse again;abcquiz;;-1;2022-04-28T14:55:18.817223800;a~c~a~
