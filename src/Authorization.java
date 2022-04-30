@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Authorization {
@@ -26,16 +28,16 @@ public class Authorization {
 
         return result;
     }
-
-    public static Authorization SignIn(Scanner scanner) {
+    public static Authorization SignIn(Scanner scanner, BufferedReader reader, PrintWriter writer) throws IOException {
         Authorization auth = new Authorization();
         AuthType type = AuthType.Student;
 
         while (!auth.authorized) {
             boolean isFine = false;
             while (!isFine) {
-                System.out.println("1: Sign In as Teacher\n2: Sign In as Student");
-                String option = scanner.nextLine();
+                clientFlush("signInMenu", writer);
+//                System.out.println("1: Sign In as Teacher\n2: Sign In as Student");
+                String option = reader.readLine();
 
                 if (option.equals("1")) {
                     type = AuthType.Teacher;
@@ -44,24 +46,27 @@ public class Authorization {
                     type = AuthType.Student;
                     isFine = true;
                 } else {
-                    System.out.println("Please enter a valid option.");
+                    clientFlush("error", writer);
                 }
             }
-            System.out.println("Enter Username: ");
-            String un = scanner.nextLine();
-            System.out.println("Enter Password: ");
-            String pass = scanner.nextLine();
+            clientFlush("username", writer);
+            String un = reader.readLine();
+            System.out.println(un);
+
+            clientFlush("password", writer);
+            String pass = reader.readLine();
+            System.out.println(pass);
 
             auth = Authorization.TrySignIn(type, un, pass);
 
-            if (!auth.authorized) System.out.println("Incorrect login type, username, or password.");
+            if (!auth.authorized) clientFlush("incorrectLogin", writer);
         }
 
         System.out.println("Logged in as " + auth.username);
         return auth;
     }
 
-    public static Authorization SignUp(Scanner scanner) throws IOException {
+    public static Authorization SignUp(Scanner scanner, BufferedReader reader, PrintWriter writer) throws IOException {
         Authorization auth = new Authorization();
         AuthType type = AuthType.Student;
 
@@ -143,6 +148,12 @@ public class Authorization {
         username = "";
         type = AuthType.Teacher;
         authorized = false;
+    }
+
+    public static void clientFlush(String message, PrintWriter writer) {
+        writer.write(message);
+        writer.println();
+        writer.flush();
     }
 }
 

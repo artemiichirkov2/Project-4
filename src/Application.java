@@ -1,3 +1,4 @@
+import java.net.*;
 import java.util.*;
 import java.io.*;
 
@@ -6,33 +7,59 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
 
+        ServerSocket serverSocket = new ServerSocket(1111);
+        System.out.println("Waiting...");
+        Socket socket = serverSocket.accept();
+        System.out.println("Connected to client!");
+        String message = "";
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintWriter writer = new PrintWriter(socket.getOutputStream());
+
+        message = reader.readLine();
+
+        if (message.equals("ping")) {
+            System.out.println("Pinged by client!");
+            writer.write("ping");
+            writer.println();
+            writer.flush();
+        }
+
         Scanner scanner = new Scanner(System.in);
         Student.Initialise();
         Teacher.Initialise();
         Course.Initialise();
 
         while (!auth.authorized) {
-            System.out.println("Welcome to the Quiz app!\n");
-            System.out.println("Do you want to Sign In or Sign Up?\n[1]Sign In\n[2]Sign Up");
-            String choice = scanner.nextLine();
+
+            writer.write("welcome");
+            writer.println();
+            writer.flush();
+
+//            System.out.println("Welcome to the Quiz app!\n");
+//            System.out.println("Do you want to Sign In or Sign Up?\n[1]Sign In\n[2]Sign Up");
+
+            String choice = reader.readLine();
 
             switch (choice) {
                 case "1":
-                    auth = Authorization.SignIn(scanner);
+                    auth = Authorization.SignIn(scanner, reader, writer);
                     break;
                 case "2":
-                    auth = Authorization.SignUp(scanner);
+                    auth = Authorization.SignUp(scanner, reader, writer);
                     break;
                 default:
-                    System.out.println("Not allowed");
+                    writer.write("error");
+                    writer.println();
+                    writer.flush();
                     break;
             }
         }
 
         switch (auth.type)
         {
-            case Student -> StudentOptions(scanner);
-            case Teacher -> TeacherOptions(scanner);
+            case Student -> StudentOptions(scanner, writer, reader);
+            case Teacher -> TeacherOptions(scanner, writer, reader);
         }
 
         System.out.println("Signed out.");
@@ -109,7 +136,7 @@ public class Application {
         return 1;
     }
 
-    public static void TeacherOptions(Scanner scanner) throws IOException {
+    public static void TeacherOptions(Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException {
         while(auth.authorized)
         {
             System.out.println("1. Create Course\n" +
@@ -371,13 +398,17 @@ public class Application {
         }
     }
 
-    public static void StudentOptions(Scanner scanner) throws IOException
+    public static void StudentOptions(Scanner scanner, PrintWriter writer, BufferedReader reader) throws IOException
     {
         while(auth.authorized)
         {
-            System.out.println("1. View Courses and Quizzes\n2. Submit Solutions\n3. View My Submissions\n4. Sign Out");
-
-            String choice = scanner.nextLine();
+            writer.write("studentMenu");
+            writer.println();
+            writer.flush();
+//            System.out.println("1. View Courses and Quizzes\n2. Submit Solutions\n3. View My Submissions\n4. Sign Out");
+//
+//            String choice = scanner.nextLine();
+            String choice = reader.readLine();
 
             switch (choice)
             {
