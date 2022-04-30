@@ -1,3 +1,5 @@
+import javax.annotation.processing.Filer;
+import java.nio.Buffer;
 import java.util.*;
 import java.io.*;
 
@@ -72,10 +74,8 @@ public class Application {
 
     private static int AddQuizFromFile(Scanner scanner, Course thisCourse, int courseIndex) throws IOException {
         String choice;
-        System.out.println("Enter Path to Quiz File (First Line Quiz Name, Then every two consecutive lines contain questions and answer options: ");
-        String quizFileName = scanner.nextLine();
 
-        File file = new File(quizFileName);
+        File file = new File("quiz1.txt");
         if(!file.exists())
         {
             System.out.println("File " + file.getAbsolutePath() + " Does Not Exist");
@@ -86,6 +86,77 @@ public class Application {
         choice = scanner.nextLine();
 
         boolean random = choice.equals("1");
+
+        System.out.println("Enter quiz name: ");
+        String quizName = scanner.nextLine();
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        PrintWriter pw = new PrintWriter(file);
+
+        pw.write(quizName);
+        pw.println();
+        pw.flush();
+
+        int questionCount = 0;
+        boolean addQuestion = true;
+        String question;
+        do {
+            do {
+                System.out.println("Enter question:");
+                question = scanner.nextLine();
+
+                if (question.isEmpty()) {
+                    System.out.println("You cannot leave the question field empty!");
+                } else {
+                    questionCount += 1;
+                    break;
+                }
+            } while (true);
+
+            pw.write("Q" + questionCount + ")");
+            pw.write(question);
+            pw.println();
+            pw.flush();
+
+            String answer;
+            do {
+                System.out.println("Enter options in the format below if " +
+                        "mutliple choice or enter -1 if it is a long-answer question:");
+                System.out.println("A) Option-a B) Option-b C) Option-c D) Option-d");
+
+                answer = scanner.nextLine();
+
+                if (answer.isEmpty()) {
+                    System.out.println("You cannot leave the answer field empty!");
+                } else if (answer.equals("-1")) {
+//                    System.out.println("Long-answer question");
+                    answer = "Subjective question";
+                    break;
+                } else {
+                    break;
+                }
+            } while (true);
+
+            pw.write(answer);
+            pw.println();
+            pw.flush();
+
+            do {
+                System.out.println("Would you like to add another question to the quiz? (y/n)");
+                String moreQuestions = scanner.nextLine();
+
+                if (moreQuestions.equalsIgnoreCase("y")) {
+                    break;
+                } else if (moreQuestions.equalsIgnoreCase("n")) {
+                    addQuestion = false;
+                    break;
+                } else {
+                    System.out.println("Enter a valid option");
+                }
+            } while (true);
+
+        } while (addQuestion);
+
 
         Quiz q = new Quiz(file, random, thisCourse);
         if(q.QuizName.equals("71239")) {

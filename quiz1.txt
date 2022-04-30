@@ -1,7 +1,11 @@
-abcquiz
-1) 2+2?
-a) 4  b)  3  c)  5 d)1
-2) 3 + 2
-a) 4  b)  3  c)  5 d)1
-3) 4 - 0
-a) 4  b)  3  c)  5 d)1
+math
+Q1)1+1
+Long-answer question
+Q2)2+2
+Long-answer question
+Q3)3+3
+Long-answer question
+Q4)4+4
+Long-answer question
+Q5)5+5
+Long-answer question

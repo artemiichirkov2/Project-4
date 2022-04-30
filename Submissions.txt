@@ -1,4 +1,1 @@
-a;vs1;ab;30;2022-04-15T13:49:39.855034200;a~b~
-c;vs4;ab;30;2022-04-15T14:40:05.755128600;Polity, Carpentry, Plumby~b~b~Vocations are really quite cool and important for passion truly~
-c;vs4;fm;5;2022-04-15T14:52:13.030381900;Plumbers~b~a~Not Really Very Useful tbh~
-abc;Vocational Studies 1;user;2;2022-04-26T15:48:58.542692900;b~a~
+a;math;user;5;2022-04-30T14:43:45.428141900;2~4~6~8~10~

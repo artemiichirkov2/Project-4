@@ -1,4 +1,1 @@
-a;vs1;t;Name all vocations`a) none b) some c) a few d) many~Do a vocation?`a) dont b) do~
-a;vs2;f;Name some vocations`a) none b) some c) a few d) many~Ever Do a vocation?`a) dont b) do~
-c;vs4;t;Name some vocations`Free Form Question~Ever Done a vocation?`a) Yes b) No~How Did it Feel?`a) Good b) Bad~Analyse the usefulness of the Vocation to Society in a 10 word sentence.`Free Form Question - 10 marks~
-abc;Vocational Studies 1;t;Name all vocations`a) none b) some c) a few d) many~Do a vocation?`a) dont b) do~
+a;math;t;Q1)1+1`Long-answer question~Q2)2+2`Long-answer question~Q3)3+3`Long-answer question~Q4)4+4`Long-answer question~Q5)5+5`Long-answer question~
