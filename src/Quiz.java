@@ -21,10 +21,17 @@ public class Quiz {
 
     public static void PrintQuizBrief(Quiz q)
     {
+
         System.out.println("Quiz Name: " + q.QuizName);
         System.out.println("Order Randomisation: " + (q.randomization ? "On" : "Off"));
     }
 
+    public static String GUIPrintQuizBrief(Quiz q)
+    {
+        String toReturn = "";
+        toReturn = toReturn + "Quiz Name: " + q.QuizName + "\n" + "Order Randomisation: " + (q.randomization ? "On" : "Off") + "\n";
+        return toReturn;
+    }
     public ArrayList<Question> questions;
     public String QuizName;
     public boolean randomization;

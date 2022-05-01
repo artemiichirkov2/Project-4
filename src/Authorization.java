@@ -139,10 +139,8 @@ public class Authorization {
     public static Authorization GUISignUp(String fn, String ln, String un, String pass, String isTeacher) throws IOException {
         Authorization auth = new Authorization();
         AuthType type = AuthType.Student;
+        boolean isFine = false;
         if(isTeacher.equals("1") || isTeacher.equals("2")) {
-            while (!auth.authorized) {
-
-                boolean isFine = false;
 
 
                 if (isTeacher.equals("1")) {
@@ -165,9 +163,8 @@ public class Authorization {
                     }
 
                     if (!isFine) {
-                        JOptionPane.showMessageDialog(null, "Duplicate Username", "Darkspace",
+                        JOptionPane.showMessageDialog(null, "Incorrect login type, username, or password.", "Darkspace",
                                 JOptionPane.ERROR_MESSAGE);
-                        continue;
                     }
 
                     Student.LocalStudents.add(new Student(fn, ln, un, pass));
@@ -180,35 +177,38 @@ public class Authorization {
                     }
 
                     if (!isFine) {
-                        JOptionPane.showMessageDialog(null, "Duplicate Username", "Darkspace",
+                        JOptionPane.showMessageDialog(null, "Incorrect login type, username, or password.", "Darkspace",
                                 JOptionPane.ERROR_MESSAGE);
-                        continue;
                     }
 
                     Teacher.LocalTeachers.add(new Teacher(fn, ln, un, pass));
                 }
-
-                auth = Authorization.TrySignIn(type, un, pass);
-
-                if (!auth.authorized) {
-                    JOptionPane.showMessageDialog(null, "Incorrect login type, username, or password.", "Darkspace",
-                            JOptionPane.ERROR_MESSAGE);
+                if(isFine) {
+                    auth = Authorization.TrySignIn(type, un, pass);
                 }
 
-            }
 
-            Student.Flush();
-            Teacher.Flush();
-            JOptionPane.showMessageDialog(null, "Logged in as " + auth.username, "Darkspace",
-                    JOptionPane.ERROR_MESSAGE);
+
+            if(isFine) {
+                Student.Flush();
+                Teacher.Flush();
+                JOptionPane.showMessageDialog(null, "Logged in as " + auth.username, "Darkspace",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
         else
         {
             JOptionPane.showMessageDialog(null, "Please enter a valid value for teacher selector", "Darkspace",
                     JOptionPane.ERROR_MESSAGE);
         }
-        return auth;
+        if(isFine) {
+            return auth;
+        }
+        else {
+            return null;
+        }
     }
+
 
 
 
@@ -217,7 +217,6 @@ public class Authorization {
         AuthType type = AuthType.Student;
         if(isTeacher.equals("1") || isTeacher.equals("2")) {
 
-            while (!auth.authorized) {
 
                 if (isTeacher.equals("1")) {
                     type = AuthType.Teacher;
@@ -232,10 +231,12 @@ public class Authorization {
                     JOptionPane.showMessageDialog(null, "Incorrect login type, username, or password.", "Darkspace",
                             JOptionPane.ERROR_MESSAGE);
                 }
-            }
+                else {
 
-            JOptionPane.showMessageDialog(null, "Logged in as " + auth.username, "Darkspace",
-                    JOptionPane.ERROR_MESSAGE);
+
+                    JOptionPane.showMessageDialog(null, "Logged in as " + auth.username, "Darkspace",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             return auth;
         }
         else
