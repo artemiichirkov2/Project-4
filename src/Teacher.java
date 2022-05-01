@@ -26,6 +26,29 @@ public class Teacher {
         inputStream.close();
     }
 
+
+    public static void InitialiseFromServer(BufferedReader reader, PrintWriter writer) throws IOException, InterruptedException {
+        LocalTeachers = new ArrayList<>();
+
+        writer.write("readTeacher"); // what to send to server
+        writer.println();
+        writer.flush(); // ensure data is sent to the server
+
+        //     Thread.sleep(5000);
+        int length = Integer.parseInt(reader.readLine());
+
+
+        String line = "";
+        for(int i = 0; i < length; i++){
+            line = reader.readLine();
+            String[] credentialsTeacher = line.split(",");
+            LocalTeachers.add(new Teacher(credentialsTeacher[0], credentialsTeacher[1], credentialsTeacher[2], credentialsTeacher[3]));
+        }
+
+//        reader.close();
+//        writer.close();
+    }
+
     public static void Flush() throws IOException {
         FileWriter writer = new FileWriter("Teachers.txt");
 
