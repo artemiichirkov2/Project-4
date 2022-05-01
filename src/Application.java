@@ -351,12 +351,12 @@ public class Application extends JComponent implements Runnable {
                                             } else {
                                                 Course thisCourse = Course.LocalCourses.get(index);
 
-                                                int status = GUIAddQuizFromFile(thisCourse, index);
+                                                int status = GUIAddQuizInLine(thisCourse, index);
                                                 if (status == 1) {
                                                     JOptionPane.showInputDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
                                                             JOptionPane.INFORMATION_MESSAGE);
                                                 } else if (status == 2) {
-                                                    JOptionPane.showInputDialog(null, "Added Quiz", "Darkspace",
+                                                    JOptionPane.showMessageDialog(null, "Added Quiz", "Darkspace",
                                                             JOptionPane.INFORMATION_MESSAGE);
                                                 }
                                             }
@@ -389,7 +389,7 @@ public class Application extends JComponent implements Runnable {
                                                             JOptionPane.INFORMATION_MESSAGE);
                                                 } else {
 
-                                                    status = GUIAddQuizFromFile(thisCourse, index);
+                                                    status = GUIAddQuizInLine(thisCourse, index);
                                                     if (status == 1) {
                                                         JOptionPane.showMessageDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
                                                                 JOptionPane.INFORMATION_MESSAGE);
@@ -709,33 +709,33 @@ public class Application extends JComponent implements Runnable {
         SwingUtilities.invokeLater(new Application());
         SwingUtilities.invokeLater(new Application());
 
-        Scanner scanner = new Scanner(System.in);
-
-
-        while (!auth.authorized) {
-            System.out.println("Welcome to the Quiz app!\n");
-            System.out.println("Do you want to Sign In or Sign Up?\n[1]Sign In\n[2]Sign Up");
-            String choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1":
-                    auth = Authorization.SignIn(scanner);
-                    break;
-                case "2":
-                    auth = Authorization.SignUp(scanner);
-                    break;
-                default:
-                    System.out.println("Not allowed");
-                    break;
-            }
-        }
-
-        switch (auth.type) {
-            case Student -> StudentOptions(scanner);
-            case Teacher -> TeacherOptions(scanner);
-        }
-
-        System.out.println("Signed out.");
+//        Scanner scanner = new Scanner(System.in);
+//
+//
+//        while (!auth.authorized) {
+//            System.out.println("Welcome to the Quiz app!\n");
+//            System.out.println("Do you want to Sign In or Sign Up?\n[1]Sign In\n[2]Sign Up");
+//            String choice = scanner.nextLine();
+//
+//            switch (choice) {
+//                case "1":
+//                    auth = Authorization.SignIn(scanner);
+//                    break;
+//                case "2":
+//                    auth = Authorization.SignUp(scanner);
+//                    break;
+//                default:
+//                    System.out.println("Not allowed");
+//                    break;
+//            }
+//        }
+//
+//        switch (auth.type) {
+//            case Student -> StudentOptions(scanner);
+//            case Teacher -> TeacherOptions(scanner);
+//        }
+//
+//        System.out.println("Signed out.");
     }
 
 
@@ -815,6 +815,111 @@ public class Application extends JComponent implements Runnable {
         Course.Flush();
         return 2;
     }
+
+
+
+    private static int GUIAddQuizInLine(Course thisCourse, int courseIndex) throws IOException {
+        String choice;
+
+        File file = new File("quiz1.txt");
+        if(!file.exists())
+        {
+            System.out.println("File " + file.getAbsolutePath() + " Does Not Exist");
+            return 0;
+        }
+
+        choice = JOptionPane.showInputDialog(null, "Should Question Order be Random? 1 for yes and 2 for no", "Darkspace",
+                JOptionPane.QUESTION_MESSAGE);
+
+        boolean random = choice.equals("1");
+
+
+        String quizName = JOptionPane.showInputDialog(null, "Enter quiz name: ", "Darkspace",
+                JOptionPane.QUESTION_MESSAGE);
+
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        PrintWriter pw = new PrintWriter(file);
+
+        pw.write(quizName);
+        pw.println();
+        pw.flush();
+
+        int questionCount = 0;
+        boolean addQuestion = true;
+        String question;
+        do {
+            do {
+
+                question = JOptionPane.showInputDialog(null, "Enter question:", "Darkspace",
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (question.isEmpty()) {
+                    JOptionPane.showInputDialog(null, "Enter question:", "Darkspace",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    questionCount += 1;
+                    break;
+                }
+            } while (true);
+
+            pw.write("Q" + questionCount + ")");
+            pw.write(question);
+            pw.println();
+            pw.flush();
+
+            String answer;
+            do {
+                answer = JOptionPane.showInputDialog(null, "Enter options in the format below if " +
+                                "mutliple choice or enter -1 if it is a long-answer question:\n" + "A) Option-a B) Option-b C) Option-c D) Option-d", "Darkspace",
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (answer.isEmpty()) {
+                    JOptionPane.showInputDialog(null, "You cannot leave the answer field empty!", "Darkspace",
+                            JOptionPane.ERROR_MESSAGE);
+                } else if (answer.equals("-1")) {
+//                    System.out.println("Long-answer question");
+                    answer = "Subjective question";
+                    break;
+                } else {
+                    break;
+                }
+            } while (true);
+
+            pw.write(answer);
+            pw.println();
+            pw.flush();
+
+            do {
+
+
+                String moreQuestions = JOptionPane.showInputDialog(null, "Would you like to add another question to the quiz? (y/n)", "Darkspace",
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (moreQuestions.equalsIgnoreCase("y")) {
+                    break;
+                } else if (moreQuestions.equalsIgnoreCase("n")) {
+                    addQuestion = false;
+                    break;
+                } else {
+                    JOptionPane.showInputDialog(null, "Enter a valid option", "Darkspace",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } while (true);
+
+        } while (addQuestion);
+
+
+        Quiz q = new Quiz(file, random, thisCourse);
+        if(q.QuizName.equals("71239")) {
+            return 1;
+        }
+        thisCourse.quizzes.add(q);
+        Course.Flush();
+        return 2;
+    }
+
+
+
 
 
     private static int RemoveQuiz(Course course, String quizName) throws IOException {

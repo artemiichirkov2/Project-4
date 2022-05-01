@@ -235,7 +235,7 @@ public class Authorization {
 
 
                     JOptionPane.showMessageDialog(null, "Logged in as " + auth.username, "Darkspace",
-                            JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
             return auth;
         }
