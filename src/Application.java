@@ -366,7 +366,8 @@ public class Application extends JComponent implements Runnable {
                                                     int index = FindCourseIndex(courseName);
 
                                                     if (index == -1) {
-                                                        System.out.println("No such Course Exists");
+                                                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                                                     } else {
                                                         Course thisCourse = Course.LocalCourses.get(index);
                                                         String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
@@ -547,7 +548,8 @@ public class Application extends JComponent implements Runnable {
                                                         int index = FindCourseIndex(courseName);
 
                                                         if (index == -1) {
-                                                            System.out.println("No Such Course Exists");
+                                                            JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                                                         } else {
                                                             Course course = Course.LocalCourses.get(index);
                                                             String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
@@ -868,7 +870,8 @@ public class Application extends JComponent implements Runnable {
                                                 int index = FindCourseIndex(courseName);
 
                                                 if (index == -1) {
-                                                    System.out.println("No such Course Exists");
+                                                    JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                                                 } else {
                                                     Course thisCourse = Course.LocalCourses.get(index);
                                                     String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
@@ -1044,7 +1047,8 @@ public class Application extends JComponent implements Runnable {
                                                 int index = FindCourseIndex(courseName);
 
                                                 if (index == -1) {
-                                                    System.out.println("No Such Course Exists");
+                                                    JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                                                 } else {
                                                     Course course = Course.LocalCourses.get(index);
                                                     String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
@@ -1387,7 +1391,8 @@ public class Application extends JComponent implements Runnable {
                     int index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No such course exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
@@ -1402,7 +1407,8 @@ public class Application extends JComponent implements Runnable {
                     index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No such course exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
@@ -1422,7 +1428,8 @@ public class Application extends JComponent implements Runnable {
                     index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No such course exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
@@ -1451,7 +1458,8 @@ public class Application extends JComponent implements Runnable {
                     index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No such course exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
@@ -1471,7 +1479,8 @@ public class Application extends JComponent implements Runnable {
                     index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No such Course Exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
@@ -1605,7 +1614,8 @@ public class Application extends JComponent implements Runnable {
                     int index = FindCourseIndex(courseName);
 
                     if (index == -1) {
-                        System.out.println("No Such Course Exists");
+                        JOptionPane.showMessageDialog(null, "No such Course Exists", "Darkspace",
+                                                                JOptionPane.ERROR_MESSAGE);
                         break;
                     }
 
