@@ -48,7 +48,7 @@ public class Submission {
 
         for (int i = 0; i < sub.answers.size(); i++) {
             Question q = forQuiz.questions.get(i);
-            toReturn = toReturn + Question.ReturnQuestion(q) + "Answer:" + sub.answers.get(i) + "\n\n";
+            toReturn = toReturn + sub.getClass().getName() + "\n" + Question.ReturnQuestion(q) + "Answer:" + sub.answers.get(i) +  "\nScore: "  + sub.score  + "\n\n";
         }
         return toReturn;
     }

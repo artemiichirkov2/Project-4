@@ -62,7 +62,7 @@ public class Application extends JComponent implements Runnable {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream());
             JOptionPane.showMessageDialog(null, "Connection with" +
-                            " server successfully established!", "Button Game",
+                            " server successfully established!", "Darkspace",
                     JOptionPane.INFORMATION_MESSAGE);
 
 
@@ -114,6 +114,8 @@ public class Application extends JComponent implements Runnable {
             //event handler for sign up button
             SignUp.addActionListener(new ActionListener() {
                 boolean SignUpAgain = false;
+                boolean SignUpAgainTeacher = false;
+                boolean SignUpAgainStudent = false;
 
                 public void actionPerformed(ActionEvent e) {
                     welcomePanel.setVisible(false);
@@ -158,39 +160,51 @@ public class Application extends JComponent implements Runnable {
                     });
 
                     signupEnter.addActionListener(new ActionListener() {
+                        
+
                         public void actionPerformed(ActionEvent e) {
                             try {
+
                                 Authorization signup = Authorization.GUISignUp(firstName.getText(), lastName.getText(),
                                         username.getText(), password.getText(), isTeacher.getText());
                                 if (signup != null) {
                                     if (signup.authorized) {
                                         signupPanel.setVisible(false);
                                         if (isTeacher.getText().equals("1")) {
+                                            teacherMenu.setVisible(true);
 
-                                            // teacher menu stuff
-                                            //teacherPanel pane UI
-                                            createCourse = new JButton("Create Course");
-                                            removeCourse = new JButton("Remove Course");
-                                            createQuiz = new JButton("Create Quiz");
-                                            editQuiz = new JButton("Edit Quiz");
-                                            removeQuiz = new JButton("Remove Quiz");
-                                            quizSubmissions = new JButton("Grade Quiz Submissions");
-                                            viewQuizzes = new JButton("View Quizzes");
-                                            viewCourses = new JButton("View Courses");
-                                            signOut = new JButton("Sign Out");
-                                            GridLayout teacherLayout = new GridLayout(3, 3);
-                                            teacherMenu.setLayout(teacherLayout);
-                                            teacherMenu.add(createCourse);
-                                            teacherMenu.add(removeCourse);
-                                            teacherMenu.add(createQuiz);
-                                            teacherMenu.add(editQuiz);
-                                            teacherMenu.add(removeQuiz);
-                                            teacherMenu.add(quizSubmissions);
-                                            teacherMenu.add(viewQuizzes);
-                                            teacherMenu.add(viewCourses);
-                                            teacherMenu.add(signOut);
-                                            content.add(teacherMenu, BorderLayout.CENTER);
-                                            //teacherPanel pane UI
+                                            if(!SignUpAgainTeacher) {
+                                                System.out.println("TEST");
+                                                SignUpAgainTeacher = true;
+                                                // teacher menu stuff
+                                                //teacherPanel pane UI
+                                                createCourse = new JButton("Create Course");
+                                                removeCourse = new JButton("Remove Course");
+                                                createQuiz = new JButton("Create Quiz");
+                                                editQuiz = new JButton("Edit Quiz");
+                                                removeQuiz = new JButton("Remove Quiz");
+                                                quizSubmissions = new JButton("Grade Quiz Submissions");
+                                                viewQuizzes = new JButton("View Quizzes");
+                                                viewCourses = new JButton("View Courses");
+                                                signOut = new JButton("Sign Out");
+                                                GridLayout teacherLayout = new GridLayout(3, 3);
+                                                teacherMenu.setLayout(teacherLayout);
+                                                teacherMenu.add(createCourse);
+                                                teacherMenu.add(removeCourse);
+                                                teacherMenu.add(createQuiz);
+                                                teacherMenu.add(editQuiz);
+                                                teacherMenu.add(removeQuiz);
+                                                teacherMenu.add(quizSubmissions);
+                                                teacherMenu.add(viewQuizzes);
+                                                teacherMenu.add(viewCourses);
+                                                teacherMenu.add(signOut);
+                                                content.add(teacherMenu, BorderLayout.CENTER);
+                                                //teacherPanel pane UI
+
+                                            }
+
+
+
                                             signOut.addActionListener(new ActionListener() {
                                                 public void actionPerformed(ActionEvent e) {
                                                     teacherMenu.setVisible(false);
@@ -481,21 +495,27 @@ public class Application extends JComponent implements Runnable {
 
 
                                         } else {
+                                            studentMenu.setVisible(true);
 
-                                            // student menu stuff
-                                            //studentPanel pane UI
-                                            viewCoursesQuiz = new JButton("View Courses and Quizzes");
-                                            takeQuizzes = new JButton("Take Quiz");
-                                            viewSubmissions = new JButton("View Submissions");
-                                            signOutStudent = new JButton("Sign Out");
-                                            GridLayout studentLayout = new GridLayout(2, 2);
-                                            studentMenu.setLayout(studentLayout);
-                                            studentMenu.add(viewCoursesQuiz);
-                                            studentMenu.add(takeQuizzes);
-                                            studentMenu.add(viewSubmissions);
-                                            studentMenu.add(signOutStudent);
-                                            content.add(studentMenu, BorderLayout.CENTER);
-                                            //studentPanel pane UI
+
+
+                                            if(!SignUpAgainStudent) {
+                                                // student menu stuff
+                                                //studentPanel pane UI
+                                                viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                                takeQuizzes = new JButton("Take Quiz");
+                                                viewSubmissions = new JButton("View Submissions/Grades");
+                                                signOutStudent = new JButton("Sign Out");
+                                                GridLayout studentLayout = new GridLayout(2, 2);
+                                                studentMenu.setLayout(studentLayout);
+                                                studentMenu.add(viewCoursesQuiz);
+                                                studentMenu.add(takeQuizzes);
+                                                studentMenu.add(viewSubmissions);
+                                                studentMenu.add(signOutStudent);
+                                                content.add(studentMenu, BorderLayout.CENTER);
+                                                //studentPanel pane UI
+                                                SignUpAgainStudent = true;
+                                            }
 
 
                                             signOutStudent.addActionListener(new ActionListener() {
@@ -609,6 +629,8 @@ public class Application extends JComponent implements Runnable {
             //event handler for sign in button
             SignIn.addActionListener(new ActionListener() {
                 boolean SignInAgain = false;
+                boolean SignInAgainTeacher = false;
+                boolean SignInAgainStudent = false;
 
                 public void actionPerformed(ActionEvent e) {
 
@@ -655,340 +677,343 @@ public class Application extends JComponent implements Runnable {
                             if (login.authorized) {
                                 loginPanel.setVisible(false);
                                 if (isTeacherSignIn.getText().equals("1")) {
+                                    teacherMenu.setVisible(true);
+                                    if(!SignInAgainTeacher) {
 
 
-                                    // teacher menu stuff
-                                    //teacherPanel pane UI
-                                    createCourse = new JButton("Create Course");
-                                    removeCourse = new JButton("Remove Course");
-                                    createQuiz = new JButton("Create Quiz");
-                                    editQuiz = new JButton("Edit Quiz");
-                                    removeQuiz = new JButton("Remove Quiz");
-                                    quizSubmissions = new JButton("View or Grade Quiz Submissions");
-                                    viewQuizzes = new JButton("View Quzzies");
-                                    viewCourses = new JButton("View Courses");
-                                    signOut = new JButton("Sign Out");
-                                    GridLayout teacherLayout = new GridLayout(3, 3);
-                                    teacherMenu.setLayout(teacherLayout);
-                                    teacherMenu.add(createCourse);
-                                    teacherMenu.add(removeCourse);
-                                    teacherMenu.add(createQuiz);
-                                    teacherMenu.add(editQuiz);
-                                    teacherMenu.add(removeQuiz);
-                                    teacherMenu.add(quizSubmissions);
-                                    teacherMenu.add(viewQuizzes);
-                                    teacherMenu.add(viewCourses);
-                                    teacherMenu.add(signOut);
-                                    content.add(teacherMenu, BorderLayout.CENTER);
-                                    //teacherPanel pane UI
+                                        // teacher menu stuff
+                                        //teacherPanel pane UI
+                                        createCourse = new JButton("Create Course");
+                                        removeCourse = new JButton("Remove Course");
+                                        createQuiz = new JButton("Create Quiz");
+                                        editQuiz = new JButton("Edit Quiz");
+                                        removeQuiz = new JButton("Remove Quiz");
+                                        quizSubmissions = new JButton("View or Grade Quiz Submissions");
+                                        viewQuizzes = new JButton("View Quzzies");
+                                        viewCourses = new JButton("View Courses");
+                                        signOut = new JButton("Sign Out");
+                                        GridLayout teacherLayout = new GridLayout(3, 3);
+                                        teacherMenu.setLayout(teacherLayout);
+                                        teacherMenu.add(createCourse);
+                                        teacherMenu.add(removeCourse);
+                                        teacherMenu.add(createQuiz);
+                                        teacherMenu.add(editQuiz);
+                                        teacherMenu.add(removeQuiz);
+                                        teacherMenu.add(quizSubmissions);
+                                        teacherMenu.add(viewQuizzes);
+                                        teacherMenu.add(viewCourses);
+                                        teacherMenu.add(signOut);
+                                        content.add(teacherMenu, BorderLayout.CENTER);
+                                        //teacherPanel pane UI
+                                    }
+                                    SignInAgainTeacher = true;
+                                        signOut.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                teacherMenu.setVisible(false);
+                                                welcomePanel.setVisible(true);
 
-                                    signOut.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            teacherMenu.setVisible(false);
-                                            welcomePanel.setVisible(true);
-
-                                        }
-                                    });
-
-                                    createCourse.addActionListener(new ActionListener() {
-
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
-                                                boolean isUnique = false;
-                                                String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (unique): ", "Darkspace",
-                                                        JOptionPane.QUESTION_MESSAGE);
-                                                if (FindCourseIndex(courseName) != -1) {
-                                                    JOptionPane.showMessageDialog(null, "Course Already Exists", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                } else {
-                                                    Course.LocalCourses.add(new Course(courseName));
-                                                    JOptionPane.showMessageDialog(null, "Course Added!", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                    Course.Flush();
-                                                }
-                                            } catch (IOException f) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
-                                        }
-                                    });
+                                        });
 
-                                    removeCourse.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
-                                                String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
-                                                        JOptionPane.QUESTION_MESSAGE);
-                                                int index = FindCourseIndex(courseName);
+                                        createCourse.addActionListener(new ActionListener() {
 
-                                                if (index == -1) {
-                                                    JOptionPane.showInputDialog(null, "No such course exists", "Darkspace",
+                                            public void actionPerformed(ActionEvent e) {
+                                                try {
+                                                    boolean isUnique = false;
+                                                    String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (unique): ", "Darkspace",
                                                             JOptionPane.QUESTION_MESSAGE);
-                                                } else {
-                                                    Course.LocalCourses.remove(index);
-                                                    Course.Flush();
-                                                    JOptionPane.showMessageDialog(null, "Course Removed", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                }
-                                            } catch (IOException f) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                        JOptionPane.INFORMATION_MESSAGE);
-                                            }
-
-                                        }
-                                    });
-
-                                    createQuiz.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
-                                                String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
-                                                        JOptionPane.QUESTION_MESSAGE);
-                                                int index = FindCourseIndex(courseName);
-                                                if (index == -1) {
-                                                    JOptionPane.showInputDialog(null, "No such course exists", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                } else {
-                                                    Course thisCourse = Course.LocalCourses.get(index);
-
-                                                    int status = GUIAddQuizInLine(thisCourse, index);
-                                                    if (status == 1) {
-                                                        JOptionPane.showInputDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
-                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                    } else if (status == 2) {
-                                                        JOptionPane.showMessageDialog(null, "Added Quiz", "Darkspace",
-                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                    }
-                                                }
-                                            } catch (IOException f) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                        JOptionPane.INFORMATION_MESSAGE);
-                                            }
-                                        }
-                                    });
-
-                                    editQuiz.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
-                                                String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
-                                                        JOptionPane.QUESTION_MESSAGE);
-                                                int index = FindCourseIndex(courseName);
-                                                if (index == -1) {
-                                                    JOptionPane.showMessageDialog(null, "No such course exists", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                } else {
-                                                    Course thisCourse = Course.LocalCourses.get(index);
-
-
-                                                    String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
-                                                            JOptionPane.QUESTION_MESSAGE);
-                                                    int status = RemoveQuiz(thisCourse, quizName);
-
-                                                    if (status == 0) {
-                                                        JOptionPane.showMessageDialog(null, "No such quiz found in this course", "Darkspace",
+                                                    if (FindCourseIndex(courseName) != -1) {
+                                                        JOptionPane.showMessageDialog(null, "Course Already Exists", "Darkspace",
                                                                 JOptionPane.INFORMATION_MESSAGE);
                                                     } else {
+                                                        Course.LocalCourses.add(new Course(courseName));
+                                                        JOptionPane.showMessageDialog(null, "Course Added!", "Darkspace",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                        Course.Flush();
+                                                    }
+                                                } catch (IOException f) {
+                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                            JOptionPane.INFORMATION_MESSAGE);
+                                                }
+                                            }
+                                        });
 
-                                                        status = GUIAddQuizInLine(thisCourse, index);
+                                        removeCourse.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                try {
+                                                    String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
+                                                            JOptionPane.QUESTION_MESSAGE);
+                                                    int index = FindCourseIndex(courseName);
+
+                                                    if (index == -1) {
+                                                        JOptionPane.showInputDialog(null, "No such course exists", "Darkspace",
+                                                                JOptionPane.QUESTION_MESSAGE);
+                                                    } else {
+                                                        Course.LocalCourses.remove(index);
+                                                        Course.Flush();
+                                                        JOptionPane.showMessageDialog(null, "Course Removed", "Darkspace",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                    }
+                                                } catch (IOException f) {
+                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                            JOptionPane.INFORMATION_MESSAGE);
+                                                }
+
+                                            }
+                                        });
+
+                                        createQuiz.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                try {
+                                                    String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
+                                                            JOptionPane.QUESTION_MESSAGE);
+                                                    int index = FindCourseIndex(courseName);
+                                                    if (index == -1) {
+                                                        JOptionPane.showInputDialog(null, "No such course exists", "Darkspace",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                    } else {
+                                                        Course thisCourse = Course.LocalCourses.get(index);
+
+                                                        int status = GUIAddQuizInLine(thisCourse, index);
                                                         if (status == 1) {
-                                                            JOptionPane.showMessageDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
+                                                            JOptionPane.showInputDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
                                                                     JOptionPane.INFORMATION_MESSAGE);
                                                         } else if (status == 2) {
                                                             JOptionPane.showMessageDialog(null, "Added Quiz", "Darkspace",
                                                                     JOptionPane.INFORMATION_MESSAGE);
                                                         }
                                                     }
+                                                } catch (IOException f) {
+                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                            JOptionPane.INFORMATION_MESSAGE);
                                                 }
-                                            } catch (IOException f) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
-                                        }
-                                    });
-                                    removeQuiz.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            try {
+                                        });
+
+                                        editQuiz.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                try {
+                                                    String courseName = JOptionPane.showInputDialog(null, "Enter Course Name: ", "Darkspace",
+                                                            JOptionPane.QUESTION_MESSAGE);
+                                                    int index = FindCourseIndex(courseName);
+                                                    if (index == -1) {
+                                                        JOptionPane.showMessageDialog(null, "No such course exists", "Darkspace",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                    } else {
+                                                        Course thisCourse = Course.LocalCourses.get(index);
+
+
+                                                        String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
+                                                                JOptionPane.QUESTION_MESSAGE);
+                                                        int status = RemoveQuiz(thisCourse, quizName);
+
+                                                        if (status == 0) {
+                                                            JOptionPane.showMessageDialog(null, "No such quiz found in this course", "Darkspace",
+                                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                        } else {
+
+                                                            status = GUIAddQuizInLine(thisCourse, index);
+                                                            if (status == 1) {
+                                                                JOptionPane.showMessageDialog(null, "Duplicate Quiz Already Exists", "Darkspace",
+                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                            } else if (status == 2) {
+                                                                JOptionPane.showMessageDialog(null, "Added Quiz", "Darkspace",
+                                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                            }
+                                                        }
+                                                    }
+                                                } catch (IOException f) {
+                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                            JOptionPane.INFORMATION_MESSAGE);
+                                                }
+                                            }
+                                        });
+                                        removeQuiz.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                try {
+                                                    String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (Where The Quiz Is): ", "Darkspace",
+                                                            JOptionPane.QUESTION_MESSAGE);
+                                                    int index = FindCourseIndex(courseName);
+
+                                                    if (index == -1) {
+                                                        JOptionPane.showMessageDialog(null, "No such course exists", "Darkspace",
+                                                                JOptionPane.INFORMATION_MESSAGE);
+
+                                                    } else {
+                                                        Course thisCourse = Course.LocalCourses.get(index);
+
+                                                        String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
+                                                                JOptionPane.QUESTION_MESSAGE);
+                                                        int status = RemoveQuiz(thisCourse, quizName);
+
+                                                        if (status == 0) {
+                                                            JOptionPane.showMessageDialog(null, "No such quiz found", "Darkspace",
+                                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                        } else {
+                                                            JOptionPane.showMessageDialog(null, "Quiz deleted", "Darkspace",
+                                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                        }
+                                                    }
+                                                } catch (IOException f) {
+                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                            JOptionPane.INFORMATION_MESSAGE);
+                                                }
+                                            }
+                                        });
+
+                                        quizSubmissions.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
                                                 String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (Where The Quiz Is): ", "Darkspace",
                                                         JOptionPane.QUESTION_MESSAGE);
                                                 int index = FindCourseIndex(courseName);
 
                                                 if (index == -1) {
-                                                    JOptionPane.showMessageDialog(null, "No such course exists", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-
+                                                    System.out.println("No such Course Exists");
                                                 } else {
                                                     Course thisCourse = Course.LocalCourses.get(index);
-
                                                     String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
                                                             JOptionPane.QUESTION_MESSAGE);
-                                                    int status = RemoveQuiz(thisCourse, quizName);
 
-                                                    if (status == 0) {
-                                                        JOptionPane.showMessageDialog(null, "No such quiz found", "Darkspace",
+                                                    index = FindQuizIndexInCourse(thisCourse, quizName);
+
+                                                    if (index == -1) {
+                                                        JOptionPane.showMessageDialog(null, "No such quiz exists. ", "Darkspace",
                                                                 JOptionPane.INFORMATION_MESSAGE);
                                                     } else {
-                                                        JOptionPane.showMessageDialog(null, "Quiz deleted", "Darkspace",
-                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                    }
-                                                }
-                                            } catch (IOException f) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                        JOptionPane.INFORMATION_MESSAGE);
-                                            }
-                                        }
-                                    });
 
-                                    quizSubmissions.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            String courseName = JOptionPane.showInputDialog(null, "Enter Course Name (Where The Quiz Is): ", "Darkspace",
-                                                    JOptionPane.QUESTION_MESSAGE);
-                                            int index = FindCourseIndex(courseName);
+                                                        Quiz thisQuiz = thisCourse.quizzes.get(index);
 
-                                            if (index == -1) {
-                                                System.out.println("No such Course Exists");
-                                            } else {
-                                                Course thisCourse = Course.LocalCourses.get(index);
-                                                String quizName = JOptionPane.showInputDialog(null, "Enter Quiz Name: ", "Darkspace",
-                                                        JOptionPane.QUESTION_MESSAGE);
-
-                                                index = FindQuizIndexInCourse(thisCourse, quizName);
-
-                                                if (index == -1) {
-                                                    JOptionPane.showMessageDialog(null, "No such quiz exists. ", "Darkspace",
-                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                } else {
-
-                                                    Quiz thisQuiz = thisCourse.quizzes.get(index);
-
-                                                    int i = 1;
-                                                    String toPrint = "";
-                                                    for (Submission s : thisQuiz.submissions) {
-                                                        toPrint = toPrint + i + ":" + Submission.ReturnSubmissionBrief(s, thisQuiz) + "\n";
-                                                        i += 1;
-                                                    }
-
-
-                                                    Submission sub;
-                                                    i -= 1;
-
-                                                    if (i == 0) {
-                                                        JOptionPane.showMessageDialog(null, "No Submissions Yet", "Darkspace",
-                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                    } else {
-                                                        int choiceNum;
-
-                                                        while (true) {
-
-                                                            String choice = JOptionPane.showInputDialog(null, "Select Submission (1 to " + i + ") to View More Closely (or press 0 to exit)", "Darkspace",
-                                                                    JOptionPane.QUESTION_MESSAGE);
-
-                                                            try {
-                                                                choiceNum = Integer.parseInt(choice);
-                                                            } catch (NumberFormatException f) {
-                                                                JOptionPane.showMessageDialog(null, "That is not a number", "Darkspace",
-                                                                        JOptionPane.INFORMATION_MESSAGE);
-                                                                continue;
-                                                            }
-                                                            if (choiceNum != 0) {
-
-                                                                if (choiceNum < 1 || choiceNum > i) {
-                                                                    JOptionPane.showMessageDialog(null, "PLease Choose a Valid Option", "Darkspace",
-                                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                                    continue;
-                                                                }
-                                                                if (choiceNum == 0) {
-                                                                    break;
-                                                                } else {
-                                                                    sub = thisQuiz.submissions.get(choiceNum - 1);
-                                                                }
-
-                                                                System.out.println("before");
-                                                                JOptionPane.showMessageDialog(null, Submission.ReturnSubmission(sub, thisQuiz), "Darkspace",
-                                                                        JOptionPane.INFORMATION_MESSAGE);
-                                                                System.out.println("after");
-
-
-                                                                while (true) {
-
-                                                                    choice = JOptionPane.showInputDialog(null, "Enter Score (enter -1 to ungrade): ", "Darkspace",
-                                                                            JOptionPane.QUESTION_MESSAGE);
-
-                                                                    try {
-                                                                        choiceNum = Integer.parseInt(choice);
-                                                                    } catch (NumberFormatException f) {
-                                                                        JOptionPane.showMessageDialog(null, "Not a number", "Darkspace",
-                                                                                JOptionPane.INFORMATION_MESSAGE);
-                                                                        continue;
-                                                                    }
-
-                                                                    break;
-                                                                }
-
-                                                                try {
-                                                                    sub.score = choiceNum;
-                                                                    Course.Flush();
-                                                                    break;
-                                                                } catch (IOException f) {
-                                                                    JOptionPane.showMessageDialog(null, "Error", "Darkspace",
-                                                                            JOptionPane.INFORMATION_MESSAGE);
-                                                                }
-                                                            }
-
+                                                        int i = 1;
+                                                        String toPrint = "";
+                                                        for (Submission s : thisQuiz.submissions) {
+                                                            toPrint = toPrint + i + ":" + Submission.ReturnSubmissionBrief(s, thisQuiz) + "\n";
+                                                            i += 1;
                                                         }
 
 
+                                                        Submission sub;
+                                                        i -= 1;
+
+                                                        if (i == 0) {
+                                                            JOptionPane.showMessageDialog(null, "No Submissions Yet", "Darkspace",
+                                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                        } else {
+                                                            int choiceNum;
+
+                                                            while (true) {
+
+                                                                String choice = JOptionPane.showInputDialog(null, "Select Submission (1 to " + i + ") to View More Closely (or press 0 to exit)", "Darkspace",
+                                                                        JOptionPane.QUESTION_MESSAGE);
+
+                                                                try {
+                                                                    choiceNum = Integer.parseInt(choice);
+                                                                } catch (NumberFormatException f) {
+                                                                    JOptionPane.showMessageDialog(null, "That is not a number", "Darkspace",
+                                                                            JOptionPane.INFORMATION_MESSAGE);
+                                                                    continue;
+                                                                }
+                                                                if (choiceNum != 0) {
+
+                                                                    if (choiceNum < 1 || choiceNum > i) {
+                                                                        JOptionPane.showMessageDialog(null, "PLease Choose a Valid Option", "Darkspace",
+                                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                                        continue;
+                                                                    }
+                                                                    if (choiceNum == 0) {
+                                                                        break;
+                                                                    } else {
+                                                                        sub = thisQuiz.submissions.get(choiceNum - 1);
+                                                                    }
+
+                                                                    JOptionPane.showMessageDialog(null, Submission.ReturnSubmission(sub, thisQuiz), "Darkspace",
+                                                                            JOptionPane.INFORMATION_MESSAGE);
+
+
+                                                                    while (true) {
+
+                                                                        choice = JOptionPane.showInputDialog(null, "Enter Score (enter -1 to ungrade): ", "Darkspace",
+                                                                                JOptionPane.QUESTION_MESSAGE);
+
+                                                                        try {
+                                                                            choiceNum = Integer.parseInt(choice);
+                                                                        } catch (NumberFormatException f) {
+                                                                            JOptionPane.showMessageDialog(null, "Not a number", "Darkspace",
+                                                                                    JOptionPane.INFORMATION_MESSAGE);
+                                                                            continue;
+                                                                        }
+
+                                                                        break;
+                                                                    }
+
+                                                                    try {
+                                                                        sub.score = choiceNum;
+                                                                        Course.Flush();
+                                                                        break;
+                                                                    } catch (IOException f) {
+                                                                        JOptionPane.showMessageDialog(null, "Error", "Darkspace",
+                                                                                JOptionPane.INFORMATION_MESSAGE);
+                                                                    }
+                                                                }
+
+                                                            }
+
+
+                                                        }
+                                                    }
+
+                                                }
+
+
+                                            }
+                                        });
+
+
+                                        viewQuizzes.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                String courseNames = "";
+                                                for (Course c : Course.LocalCourses) {
+                                                    courseNames = courseNames + "Course: " + c.name + "\n";
+                                                    for (Quiz q : c.quizzes) {
+                                                        courseNames = courseNames + Quiz.GUIPrintQuizBrief(q) + "\n";
+
                                                     }
                                                 }
-
+                                                JOptionPane.showMessageDialog(null, courseNames, "Darkspace",
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
-
-
-                                        }
-                                    });
-
-
-                                    viewQuizzes.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            String courseNames = "";
-                                            for (Course c : Course.LocalCourses) {
-                                                courseNames = courseNames + "Course: " + c.name + "\n";
-                                                for (Quiz q : c.quizzes) {
-                                                    courseNames = courseNames + Quiz.GUIPrintQuizBrief(q) + "\n";
-
+                                        });
+                                        viewCourses.addActionListener(new ActionListener() {
+                                            public void actionPerformed(ActionEvent e) {
+                                                String courseNames = "";
+                                                for (Course c : Course.LocalCourses) {
+                                                    courseNames = courseNames + "Course: " + c.name + "\n";
                                                 }
+                                                JOptionPane.showMessageDialog(null, courseNames, "Darkspace",
+                                                        JOptionPane.INFORMATION_MESSAGE);
                                             }
-                                            JOptionPane.showMessageDialog(null, courseNames, "Darkspace",
-                                                    JOptionPane.INFORMATION_MESSAGE);
-                                        }
-                                    });
-                                    viewCourses.addActionListener(new ActionListener() {
-                                        public void actionPerformed(ActionEvent e) {
-                                            String courseNames = "";
-                                            for (Course c : Course.LocalCourses) {
-                                                courseNames = courseNames + "Course: " + c.name + "\n";
-                                            }
-                                            JOptionPane.showMessageDialog(null, courseNames, "Darkspace",
-                                                    JOptionPane.INFORMATION_MESSAGE);
-                                        }
-                                    });
+                                        });
 
 
                                 } else {
+                                    studentMenu.setVisible(true);
+                                    if(!SignInAgainStudent) {
 
-
-                                    // student menu stuff
-                                    //studentPanel pane UI
-                                    viewCoursesQuiz = new JButton("View Courses and Quizzes");
-                                    takeQuizzes = new JButton("Take Quiz");
-                                    viewSubmissions = new JButton("View Submissions");
-                                    signOutStudent = new JButton("Sign Out");
-                                    GridLayout studentLayout = new GridLayout(2, 2);
-                                    studentMenu.setLayout(studentLayout);
-                                    studentMenu.add(viewCoursesQuiz);
-                                    studentMenu.add(takeQuizzes);
-                                    studentMenu.add(viewSubmissions);
-                                    studentMenu.add(signOutStudent);
-                                    content.add(studentMenu, BorderLayout.CENTER);
-                                    //studentPanel pane UI
-
+                                        // student menu stuff
+                                        //studentPanel pane UI
+                                        viewCoursesQuiz = new JButton("View Courses and Quizzes");
+                                        takeQuizzes = new JButton("Take Quiz");
+                                        viewSubmissions = new JButton("View Submissions/Grades");
+                                        signOutStudent = new JButton("Sign Out");
+                                        GridLayout studentLayout = new GridLayout(2, 2);
+                                        studentMenu.setLayout(studentLayout);
+                                        studentMenu.add(viewCoursesQuiz);
+                                        studentMenu.add(takeQuizzes);
+                                        studentMenu.add(viewSubmissions);
+                                        studentMenu.add(signOutStudent);
+                                        content.add(studentMenu, BorderLayout.CENTER);
+                                        //studentPanel pane UI
+                                    }
+                                    SignInAgainStudent = true;
 
                                     signOutStudent.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
@@ -1088,7 +1113,7 @@ public class Application extends JComponent implements Runnable {
             //welcome pane event handlers
         } catch (Exception F) {
             JOptionPane.showMessageDialog(null, "Error, cannot establish connection with host.",
-                    "Button Game",
+                    "Darkspace",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
