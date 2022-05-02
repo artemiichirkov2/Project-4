@@ -1,3 +1,4 @@
 ethanCourse;;f;Q1)hello`Subjective question~
 noobCourse;helloquiz;f;Q1)no`Subjective question~
 testCourse;testQuiz;t;Q1)-1`Subjective question~
+videoCourse;videoQuiz;f;Q1)1`Subjective question~

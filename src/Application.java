@@ -57,10 +57,10 @@ public class Application extends JComponent implements Runnable {
 
 
 
-            Socket socket = new Socket("localhost", 4245);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter writer = new PrintWriter(socket.getOutputStream());
+//            Socket socket = new Socket("localhost", 4245);
+//
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//            PrintWriter writer = new PrintWriter(socket.getOutputStream());
             JOptionPane.showMessageDialog(null, "Connection with" +
                             " server successfully established!", "Darkspace",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -160,7 +160,7 @@ public class Application extends JComponent implements Runnable {
                     });
 
                     signupEnter.addActionListener(new ActionListener() {
-                        
+
 
                         public void actionPerformed(ActionEvent e) {
                             try {
@@ -200,7 +200,7 @@ public class Application extends JComponent implements Runnable {
                                                 teacherMenu.add(signOut);
                                                 content.add(teacherMenu, BorderLayout.CENTER);
                                                 //teacherPanel pane UI
-
+                                                SignUpAgainTeacher = true;
                                             }
 
 
@@ -631,7 +631,7 @@ public class Application extends JComponent implements Runnable {
             //event handler for sign in button
             SignIn.addActionListener(new ActionListener() {
                 boolean SignInAgain = false;
-                boolean SignInAgainTeacher = false;
+                boolean SignUpAgainTeacher = false;
                 boolean SignInAgainStudent = false;
 
                 public void actionPerformed(ActionEvent e) {
@@ -680,7 +680,7 @@ public class Application extends JComponent implements Runnable {
                                 loginPanel.setVisible(false);
                                 if (isTeacherSignIn.getText().equals("1")) {
                                     teacherMenu.setVisible(true);
-                                    if(!SignInAgainTeacher) {
+                                    if(!SignUpAgainTeacher) {
 
 
                                         // teacher menu stuff
@@ -707,8 +707,9 @@ public class Application extends JComponent implements Runnable {
                                         teacherMenu.add(signOut);
                                         content.add(teacherMenu, BorderLayout.CENTER);
                                         //teacherPanel pane UI
+                                        SignUpAgainTeacher = true;
                                     }
-                                    SignInAgainTeacher = true;
+
                                         signOut.addActionListener(new ActionListener() {
                                             public void actionPerformed(ActionEvent e) {
                                                 teacherMenu.setVisible(false);
@@ -1015,8 +1016,9 @@ public class Application extends JComponent implements Runnable {
                                         studentMenu.add(signOutStudent);
                                         content.add(studentMenu, BorderLayout.CENTER);
                                         //studentPanel pane UI
+                                        SignInAgainStudent = true;
+
                                     }
-                                    SignInAgainStudent = true;
 
                                     signOutStudent.addActionListener(new ActionListener() {
                                         public void actionPerformed(ActionEvent e) {
@@ -1132,7 +1134,20 @@ public class Application extends JComponent implements Runnable {
 //        Teacher.Initialise();
 //        Course.Initialise();
 
-        SwingUtilities.invokeLater(new Application());
+       // int noUsers =0;
+        //do {
+
+
+        String noUsersTemp = JOptionPane.showInputDialog(null, "How many users would you like to have?", "Darkspace",
+                JOptionPane.QUESTION_MESSAGE);
+        int noUsers = Integer.parseInt(noUsersTemp);
+
+        for(int i = 0; i < noUsers; i ++) {
+            SwingUtilities.invokeLater(new Application());
+        }
+        //}while(noUsers > 0 || noUsers <= 0);
+
+
 
 //        Scanner scanner = new Scanner(System.in);
 //
