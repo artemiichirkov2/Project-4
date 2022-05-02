@@ -1,9 +1,5 @@
 Project 5 Tests
 
-Notes / Bags:
-1. Application launches with two windows
-2. When I Sign Out and then Sign In again, Application is just a blank sheet 
-
 User Sign Up Test:
 
 1. User (either teacher or student) launches the application
