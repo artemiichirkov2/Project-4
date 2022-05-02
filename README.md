@@ -24,6 +24,10 @@ It also interacts with the Application.java class for course manipulation or acc
 This class is used for all quiz related data.
 It is used in the Application class to display quizzes, Course class for creation of new quizzes and quiz manipulation, as well as the Submission class for grading purposes.
 
+**Question.java**
+This class is used for fetching and creating questions.
+It is used in the Course class for creating a new question, in the quiz class to display questions, and in the Submission class to print a brief of the submission.
+
 **Teacher.java**
 Stores login information for teachers.
 This is used in the Application class for initialization and reading the existing database of teachers into memory.
