@@ -38,3 +38,5 @@ Stores login information for students.
 This is used in the Application class for initialization and reading the existing database of teachers into memory.
 Also used in the Authorization class for verifying login information, appending new data to the database as well as checking for duplicate usernames.
 
+**Ethan Thackery** - Submitted Report on Brightspace
+**Ethan Thackery** - Submitted Vocareum Workspace
