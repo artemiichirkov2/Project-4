@@ -1,3 +1,4 @@
 ethanCourse;;;-1;2022-05-01T23:57:19.473419700;aowdiunbawd~
 noobCourse;helloquiz;;5;2022-05-01T23:56:36.830543400;oaiuwhdgoauiwhd~
 testCourse;testQuiz;;50;2022-05-02T14:06:15.766466400;kwerngopwjkrgn~
+videoCourse;videoQuiz;;-1;2022-05-02T15:36:44.562588200;example answer~
