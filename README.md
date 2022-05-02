@@ -21,3 +21,16 @@ It interacts with the Quiz.java class to help the correspond to the right quiz.
 It also interacts with the Application.java class for course manipulation or accessing a course.
 
 **Quiz.java**
+This class is used for all quiz related data.
+It is used in the Application class to display quizzes, Course class for creation of new quizzes and quiz manipulation, as well as the Submission class for grading purposes.
+
+**Teacher.java**
+Stores login information for teachers.
+This is used in the Application class for initialization and reading the existing database of teachers into memory.
+Also used in the Authorization class for verifying login information, appending new data to the database as well as checking for duplicate usernames .
+
+**Student.java**
+Stores login information for students.
+This is used in the Application class for initialization and reading the existing database of teachers into memory.
+Also used in the Authorization class for verifying login information, appending new data to the database as well as checking for duplicate usernames.
+
